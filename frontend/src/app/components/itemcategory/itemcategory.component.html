@@ -1,0 +1,61 @@
+<section class="container d-flex justify-content-around pt-4">
+  <mat-card class="col-sm-4 d-inline-block align-top h-100">
+    <form [formGroup]="itemCategoryForm" #formDirective="ngForm">
+      <mat-card-title>Item de Categoría</mat-card-title>
+      <mat-card-content>
+        <mat-form-field class="w100">
+          <input matInput formControlName="nameItemCategory" placeholder="Nombre categoría" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field class="w100">
+          <mat-label>Categoría</mat-label>
+          <mat-select formControlName="category">
+            <mat-option [value]="category.idCategory" *ngFor="let category of listCategories">
+              {{category.nameCategory}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="active" class="w100">Activo</mat-checkbox>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="submitForm(itemCategoryForm)">Guardar</button>
+        <button mat-raised-button (click)="resetForm()">Cancelar</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+  <mat-card class="col-sm-7 d-inline-block">
+    <mat-table [dataSource]="listItemCategories" class="w100" cols="3">
+      <ng-container matColumnDef="nameItemCategory">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let itemCategory"> {{itemCategory.nameItemCategory}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <mat-header-cell *matHeaderCellDef> Activo </mat-header-cell>
+        <mat-cell *matCellDef="let itemCategory"> {{itemCategory.active}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef> Categoría </mat-header-cell>
+        <mat-cell *matCellDef="let itemCategory">{{itemCategory.category}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+        <mat-cell *matCellDef="let itemCategory"><a (click)="deleteItemCategory(itemCategory.idItemCategory)"><i
+              class="material-icons">delete</i></a></mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
+        <mat-cell *matCellDef="let itemCategory"><a (click)="loadData(itemCategory)"><i class="material-icons">edit</i></a>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card>
+</section>

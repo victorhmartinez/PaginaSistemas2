@@ -1,0 +1,64 @@
+<section class="container d-flex justify-content-around pt-4">
+    <mat-card class="col-sm-4 d-inline-block align-top h-100">
+        <form [formGroup]="personsRoleForm" #formDirective="ngForm">
+            <mat-card-title>Roles de Persona</mat-card-title>
+            <mat-card-content>
+
+                <mat-form-field class="w100">
+                    <mat-label>Nombre Personas</mat-label>
+                    <mat-select formControlName="persons_id">
+                        <mat-option [value]="person.person_id" *ngFor="let person of listPersons">
+                            {{person.first_name}} {{person.second_name}} {{person.first_last_name}} {{person.second_last_name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <mat-form-field class="w100">
+                    <mat-label>Roles Asignados</mat-label>
+                    <mat-select formControlName="item_category_id">
+                        <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
+                            {{itemCategory.nameItemCategory}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="submitForm(personsRoleForm)">Guardar</button>
+                <button mat-raised-button (click)="resetForm()">Cancelar</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+    <mat-card class="col-sm-7 d-inline-block">
+
+        <mat-table [dataSource]="listPersonsRole" class="w100" cols="3"> 
+          <ng-container matColumnDef="person">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let personsRole"> {{personsRole.persons_id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="itemCategory">
+            <mat-header-cell *matHeaderCellDef> Rol </mat-header-cell>
+            <mat-cell *matCellDef="let personsRole">{{personsRole.item_category_id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+            <mat-cell *matCellDef="let personsRole"><a (click)="deletePersonsRole(personsRole.persons_role_id)"><i
+                class="material-icons">delete</i></a></mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="update">
+              <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
+              <mat-cell *matCellDef="let personsRole"><a (click)="loadData(personsRole)"><i class="material-icons">edit</i></a>
+              </mat-cell>
+            </ng-container>
+    
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </mat-card>
+
+</section>

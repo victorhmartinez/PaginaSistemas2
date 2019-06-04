@@ -1,0 +1,76 @@
+<mat-toolbar id="mainToolbar" color="primary">
+  <mat-icon (click)="onToolbarMenuToggle()" id="toolbarMenu">subject</mat-icon>
+  My Awesome App
+  <span class="toolbar-spacer"></span>
+  <mat-icon class="toolbar-icon" matBadge="8" matBadgePosition="after" matBadgeColor="accent">notifications</mat-icon>
+</mat-toolbar>
+
+<mat-sidenav-container id="sidenavContainer" fullscreen>
+  <mat-sidenav mode="side" #sidenav id="sidenav" [class.menu-open]="isMenuOpen" [class.menu-close]="!isMenuOpen" opened>
+
+    <mat-list id="menus">
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar class="avatar"></div>
+
+          <mat-card-title>John Doe</mat-card-title>
+          <mat-card-subtitle>Internal</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/category']">
+          <mat-icon>dashboard</mat-icon>
+          Categorías
+        </button>
+      </mat-list-item>
+
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/itemcategory']">
+          <mat-icon>dashboard</mat-icon>
+          Items de Categoría
+        </button>
+      </mat-list-item>
+
+      
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/person']">
+          <mat-icon>person_add</mat-icon>
+          Personas
+        </button>
+      </mat-list-item>
+
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/personsrole']">
+          <mat-icon>dashboard</mat-icon>
+          Roles de Personas
+        </button>
+      </mat-list-item>
+
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/personsmedia']">
+          <mat-icon>dashboard</mat-icon>
+          Personas Media
+        </button>
+      </mat-list-item>
+      
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/personcontact']">
+          <mat-icon>contacts</mat-icon>
+          Personas Contactos
+        </button>
+      </mat-list-item>
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button>
+          <mat-icon>settings_application</mat-icon>
+          Settings
+        </button>
+      </mat-list-item>
+    
+
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
