@@ -15,20 +15,20 @@ import { ContentMediaService } from 'src/app/services/content-media.service';
 })
 export class ContentMediaComponent implements OnInit {
   
-  listItemCategory: ItemCategory[] = [];
+  listItemCategories: ItemCategory[] = [];
   listContent: Content[] = [];
   listContentMedia: ContentMedia[] = [];
   contentMediaForm: FormGroup;
   constructor(
-    private ItemCategoryService: ItemCategoryService,
+    private itemCategoryService: ItemCategoryService,
     private contentService : ContentService,
     private contentMediaService : ContentMediaService
   ) { this.contentMediaForm = this.createFormGroup();
   }
   //Update Item Category
-  updateListItemCategory() {
-    this.ItemCategoryService.getItemCategories().subscribe(itemCategories => {
-      this.listItemCategory = itemCategories;
+  updateListItemCategories() {
+    this.itemCategoryService.getItemCategories().subscribe(itemCategories => {
+      this.listItemCategories = itemCategories;
     });
   }
   //Update content
@@ -63,7 +63,7 @@ updateContentMedia(id: number) {
   ngOnInit() {
     this.updateListContentMedia();
     this.updateListContent();
-    this.updateListItemCategory();
+    this.updateListItemCategories();
    
   }
    //columns table
