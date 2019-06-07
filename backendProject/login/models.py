@@ -25,7 +25,6 @@ class Persons(models.Model):
     second_name = models.CharField(max_length=255)
     first_last_name = models.CharField(max_length=255)
     second_last_name = models.CharField(max_length=255)
-    Persons_role = models.ManyToManyField(ItemCategory)
 
     def __str__(self):
         return self.first_name +" "+ self.first_last_name
@@ -51,6 +50,73 @@ class Persons_Contacts (models.Model):
     item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
     persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
 
+class Subject_matter (models.Model):
+    subject_matter_id = models.AutoField(primary_key=True)
+    name_subject_matter = models.CharField(max_length=255)
+    universitycareer = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return self.name_subject_matter
+
+class Pre_requirements (models.Model):
+    pre_requirements_id = models.AutoField(primary_key=True)
+    subject_matter_id_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_id_id')
+    subject_matter_requeriment_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment_id')
+
+class Site (models.Model):
+    site_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=45, null=False)
+    icon = models.CharField(max_length=45, null=False)
+    favicon = models.CharField(max_length=45, null=False)
+
+    def __str__(self):
+        return self.title
+
+class Info_site (models.Model):
+    info_site_id = models.AutoField(primary_key=True)
+    site_site_id = models.ForeignKey(Site, on_delete = models.CASCADE)
+    description = models.CharField(max_length=45, null=False)
+    type_info = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+
+class Content (models.Model):
+    content_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=45, null = False)
+    description = models.CharField(max_length=500, null=False)
+    update_time = models.DateTimeField(default=timezone.now, null=False, blank=False)
+    create_time = models.DateTimeField(default=timezone.now, null=False, blank=False)
+    type_event = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='type_event')
+    academic_period = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='academic_period')
+    content_universitycareer = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='content_universitycareer')
+
+    def __str__(self):
+        return self.title
+
+class Content_media (models.Model):
+    content_media_id = models.AutoField(primary_key=True)
+    path = models.CharField(max_length=500)
+    item_category_item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+    content_content_id = models.ForeignKey(Content, on_delete = models.CASCADE)
+
+class Content_info (models.Model):
+    content_info_id = models.AutoField(primary_key=True)
+    date = models.DateTimeField(default=timezone.now)
+    place = models.CharField(max_length=45, null=False)
+    link_form = models.CharField(max_length=200, null=False)
+    url = models.CharField(max_length=200, null=False)
+    content_content_id = models.ForeignKey(Content, on_delete = models.CASCADE)
+
+class Menu (models.Model):
+    menu_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45, null=False)
+    orden = models.IntegerField(null=False)
+    item_category_item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+
+class SubMenu (models.Model):
+    idSubMenu = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45, null=False)
+    orden = models.IntegerField(null=False)
+    url = models.CharField(max_length=200, null=False)
+    menu_menu_id = models.ForeignKey(Menu, on_delete = models.CASCADE)
 
 
 class UserManager(BaseUserManager):
