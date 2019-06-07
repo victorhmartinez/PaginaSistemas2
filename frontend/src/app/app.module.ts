@@ -15,6 +15,14 @@ import { PersonsroleComponent } from './components/personsrole/personsrole.compo
 import { PersonComponent } from './components/person/person.component';
 import { PersonsmediaComponent } from './components/personsmedia/personsmedia.component';
 import { PersoncontactsComponent } from './components/personcontacts/personcontacts.component';
+import { PersonDepartamentComponent } from './components/person-departament/person-departament.component';
+import { ContentComponent } from './components/content/content.component';
+import { ContentMediaComponent } from './components/content-media/content-media.component';
+import { ContentInfoComponent } from './components/content-info/content-info.component';
+import { SiteComponent } from './components/site/site.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { SubmenuComponent } from './components/submenu/submenu.component';
+import { InfositeComponent } from './components/infosite/infosite.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +34,14 @@ import { PersoncontactsComponent } from './components/personcontacts/personconta
     PersonComponent,
     PersonsmediaComponent,
     PersoncontactsComponent,
+    PersonDepartamentComponent,
+    ContentComponent,
+    ContentMediaComponent,
+    ContentInfoComponent,
+    SiteComponent,
+    MenuComponent,
+    SubmenuComponent,
+    InfositeComponent,
 
   ],
   imports: [

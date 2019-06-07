@@ -9,6 +9,7 @@ import { Person } from '../../models/person';
 import { ItemCategory } from '../../models/itemCategory';
 import { PersonsRole } from '../../models/personsRole';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { ItemCategoryRoleService } from 'src/app/services/itemCategoryRole.service';
 
 @Component({
   selector: 'app-personsrole',
@@ -20,12 +21,13 @@ export class PersonsroleComponent implements OnInit {
   listPersons: Person[] = [];
   listItemCategories: ItemCategory[] = [];
   listPersonsRole: PersonsRole[] = [];
+  listCategoryRole: PersonsRole[] = [];
   personsRoleForm: FormGroup;
 
   constructor(
     private personsRoleService: PersonsRoleService ,
     private personService: PersonService,
-    private itemCategoryService: ItemCategoryService,
+    private itemCategoryRolService: ItemCategoryRoleService,
   ) {
     this.personsRoleForm = this.createFormGroup();
    }
@@ -37,9 +39,9 @@ export class PersonsroleComponent implements OnInit {
     });
   }
 
-  updateListItemCategories() {
-    this.itemCategoryService.getItemCategories().subscribe(itemCategories => {
-      this.listItemCategories = itemCategories;
+  updateListItemROLCategories() {
+    this.itemCategoryRolService.getPersonsRole().subscribe(itemCategories => {
+      this.listCategoryRole = itemCategories;
     });
   }
 
@@ -70,7 +72,7 @@ export class PersonsroleComponent implements OnInit {
 
   ngOnInit() {
     this.updateListPersons();
-    this.updateListItemCategories();
+    this.updateListItemROLCategories();
     this.updateListPersonsRole();
   }
 

@@ -1,0 +1,107 @@
+<section class="container d-flex justify-content-around pt-4">
+  <mat-card class="col-sm-3 d-inline-block align-top h-100">
+    <form [formGroup]="contentForm" #formDirective="ngForm">
+      <mat-card-title>Contenido</mat-card-title>
+      <mat-card-content>
+        <mat-form-field class="w100">
+          <input matInput formControlName="title" placeholder="Titulo" autocomplete="off">
+        </mat-form-field>
+        <!--Description-->
+        <mat-form-field class="w100">
+          <input matInput formControlName="description" placeholder="Descripcion" autocomplete="off">
+        </mat-form-field>
+        <!--type_event-->
+        <mat-form-field class="w100">
+          <mat-label>Tipo de Evento</mat-label>
+          <mat-select formControlName="type_event">
+            <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listTypeEvent">
+              {{itemCategory.nameItemCategory}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!--academic_period-->
+        <mat-form-field class="w100">
+          <mat-label>Periodo Academico</mat-label>
+          <mat-select formControlName="academic_period">
+            <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listAcademicPeriod">
+              {{itemCategory.nameItemCategory}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!--content_universitycareer-->
+
+        <mat-form-field class="w100">
+          <mat-label>Contenido Carrera Universitaria</mat-label>
+          <mat-select formControlName="content_universitycareer">
+            <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemUniversityCareer">
+              {{itemCategory.nameItemCategory}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="submitForm(contentForm)">Guardar</button>
+        <button mat-raised-button (click)="resetForm()">Cancelar</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+<!--table-->
+
+<mat-card class="col-sm-8 d-inline-block">
+
+  <mat-table [dataSource]="listContent" class="w100" cols="6"> 
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>Titulo </mat-header-cell>
+      <mat-cell *matCellDef="let content"> {{content.title}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Descripcion </mat-header-cell>
+      <mat-cell *matCellDef="let content">{{content.description}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="type_event">
+        <mat-header-cell *matHeaderCellDef> Evento </mat-header-cell>
+        <mat-cell *matCellDef="let content">{{content.type_event}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="create_time">
+        <mat-header-cell *matHeaderCellDef> Tiempo de creacion </mat-header-cell>
+        <mat-cell *matCellDef="let content">{{content.create_time}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="update_time">
+        <mat-header-cell *matHeaderCellDef> Modificacion Tiempo </mat-header-cell>
+        <mat-cell *matCellDef="let content">{{content.update_time}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="academic_period">
+        <mat-header-cell *matHeaderCellDef>Periodo Academico</mat-header-cell>
+        <mat-cell *matCellDef="let content">{{content.academic_period}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="universitycareer">
+        <mat-header-cell *matHeaderCellDef>Carrerra Universitaria</mat-header-cell>
+        <mat-cell *matCellDef="let content">{{content.content_universitycareer}} </mat-cell>
+      </ng-container>
+
+
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+      <mat-cell *matCellDef="let content"><a (click)="deleteContent(content.content_id)"><i
+          class="material-icons">delete</i></a></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="update">
+        <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
+        <mat-cell *matCellDef="let content"><a (click)="loadData(content)"><i class="material-icons">edit</i></a>
+        </mat-cell>
+      </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-card>
+
+</section>
