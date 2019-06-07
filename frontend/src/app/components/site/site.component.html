@@ -1,0 +1,56 @@
+<section class="container d-flex justify-content-around pt-4">
+  <mat-card class="col-sm-4 d-inline-block align-top h-100">
+    <form [formGroup]="siteForm" #formDirective="ngForm">
+      <mat-card-title>Sitio</mat-card-title>
+      <mat-card-content>
+        <mat-form-field class="w100">
+          <input matInput formControlName="title" placeholder="Titulo" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field class="w100">
+          <input matInput formControlName="icon" placeholder="Icono" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field class="w100">
+          <input matInput formControlName="favicon" placeholder="Icono de Fav" autocomplete="off">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="submitForm(siteForm)">Guardar</button>
+        <button mat-raised-button (click)="resetForm()">Cancelar</button>
+
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+  <mat-card class="col-sm-7 d-inline-block">
+    <mat-table [dataSource]="listSites" class="w100" cols="3">
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef>Sitio</mat-header-cell>
+        <mat-cell *matCellDef="let site"> {{site.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="icon">
+        <mat-header-cell *matHeaderCellDef> Icono </mat-header-cell>
+        <mat-cell *matCellDef="let site"> {{site.icon}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="favicon">
+        <mat-header-cell *matHeaderCellDef> Icono favorito </mat-header-cell>
+        <mat-cell *matCellDef="let site"> {{site.favicon}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+        <mat-cell *matCellDef="let site"><a (click)="deleteSite(site.site_id)"><i
+              class="material-icons">delete</i></a></mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
+        <mat-cell *matCellDef="let site"><a (click)="loadData(site)"><i class="material-icons">edit</i></a>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card>
+</section>

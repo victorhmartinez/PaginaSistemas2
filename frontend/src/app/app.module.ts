@@ -19,6 +19,10 @@ import { PersonDepartamentComponent } from './components/person-departament/pers
 import { ContentComponent } from './components/content/content.component';
 import { ContentMediaComponent } from './components/content-media/content-media.component';
 import { ContentInfoComponent } from './components/content-info/content-info.component';
+import { SiteComponent } from './components/site/site.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { SubmenuComponent } from './components/submenu/submenu.component';
+import { InfositeComponent } from './components/infosite/infosite.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,10 @@ import { ContentInfoComponent } from './components/content-info/content-info.com
     ContentComponent,
     ContentMediaComponent,
     ContentInfoComponent,
+    SiteComponent,
+    MenuComponent,
+    SubmenuComponent,
+    InfositeComponent,
 
   ],
   imports: [

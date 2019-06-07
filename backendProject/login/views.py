@@ -25,7 +25,11 @@ class ItemCategoryRolList (generics.ListAPIView):
     except ObjectDoesNotExist:
         queryset = models.ItemCategory.objects.none()
         serializer_class = ItemCategorySerializer
+<<<<<<< HEAD
       
+=======
+       
+>>>>>>> b49c4a7ac47d076ec36f5f73439b4b3e8f46b4f1
 
 @permission_classes((AllowAny,))
 class CategoryList (generics.ListCreateAPIView):
