@@ -15,6 +15,10 @@ import { PersonsroleComponent } from './components/personsrole/personsrole.compo
 import { PersonComponent } from './components/person/person.component';
 import { PersonsmediaComponent } from './components/personsmedia/personsmedia.component';
 import { PersoncontactsComponent } from './components/personcontacts/personcontacts.component';
+import { SiteComponent } from './components/site/site.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { SubmenuComponent } from './components/submenu/submenu.component';
+import { InfositeComponent } from './components/infosite/infosite.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,10 @@ import { PersoncontactsComponent } from './components/personcontacts/personconta
     PersonComponent,
     PersonsmediaComponent,
     PersoncontactsComponent,
+    SiteComponent,
+    MenuComponent,
+    SubmenuComponent,
+    InfositeComponent,
 
   ],
   imports: [

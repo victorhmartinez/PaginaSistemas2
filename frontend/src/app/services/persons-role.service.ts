@@ -34,6 +34,6 @@ export class PersonsRoleService {
     }
 
     public getPersonsRole() { 
-      return this.httpClient.get<PersonsRole[]>(this.apiUrl+'itemcategoryRol/', this.httpOptions);
+      return this.httpClient.get<PersonsRole[]>(this.apiUrl+'personsRole/', this.httpOptions);
     }
 }

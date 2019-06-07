@@ -25,7 +25,6 @@ class Persons(models.Model):
     second_name = models.CharField(max_length=255)
     first_last_name = models.CharField(max_length=255)
     second_last_name = models.CharField(max_length=255)
-    Persons_role = models.ManyToManyField(ItemCategory)
 
     def __str__(self):
         return self.first_name +" "+ self.first_last_name

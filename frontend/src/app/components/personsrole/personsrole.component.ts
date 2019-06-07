@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PersonsRoleService  } from '../../services/persons-role.service';
 import { ItemCategoryService } from '../../services/itemCategory.service';
 import { PersonService  } from '../../services/person.service';
+import { ItemCategoryRoleService  } from '../../services/itemCategoryRole.service';
 
 //Models
 import { Person } from '../../models/person';
@@ -20,12 +21,14 @@ export class PersonsroleComponent implements OnInit {
   listPersons: Person[] = [];
   listItemCategories: ItemCategory[] = [];
   listPersonsRole: PersonsRole[] = [];
+  listCategoryRole: PersonsRole[] = [];
   personsRoleForm: FormGroup;
 
   constructor(
     private personsRoleService: PersonsRoleService ,
     private personService: PersonService,
     private itemCategoryService: ItemCategoryService,
+    private itemCategoryRolService : ItemCategoryRoleService
   ) {
     this.personsRoleForm = this.createFormGroup();
    }
@@ -38,8 +41,8 @@ export class PersonsroleComponent implements OnInit {
   }
 
   updateListItemCategories() {
-    this.itemCategoryService.getItemCategories().subscribe(itemCategories => {
-      this.listItemCategories = itemCategories;
+    this.itemCategoryRolService.getPersonsRole().subscribe(itemCategories => {
+      this.listCategoryRole = itemCategories;
     });
   }
 
