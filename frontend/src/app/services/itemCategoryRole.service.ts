@@ -21,6 +21,6 @@ export class ItemCategoryRoleService {
   }
   
   public getPersonsRole() { 
-    return this.httpClient.get<PersonsRole[]>(this.apiUrl+'personsRole/', this.httpOptions);
+    return this.httpClient.get<PersonsRole[]>(this.apiUrl+'itemcategoryRol/', this.httpOptions);
   }
 }

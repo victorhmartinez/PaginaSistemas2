@@ -1,8 +1,8 @@
-import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader, ViewChild } from '@angular/core';
 import { Person } from '../../models/person';
 import { PersonService } from '../../services/person.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+
 
 @Component({
   selector: 'app-person',
@@ -10,8 +10,11 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
   styleUrls: ['./person.component.css']
 })
 export class PersonComponent implements OnInit {
+  displayedColumns: string[] = ['first_name', 'second_name','first_last_name','second_last_name', 'delete', 'update'];
+  
   listPersons: Person[] = [];
   personForm: FormGroup;
+  
   constructor(
     private personServices: PersonService
   ) { 
@@ -34,8 +37,10 @@ export class PersonComponent implements OnInit {
 
   ngOnInit() {
     this.updateListPersons();
+  
+    
   }
-  displayedColumns: string[] = ['first_name', 'second_name','first_last_name','second_last_name', 'delete', 'update'];
+
  //FORM ACTIONS
   //Create new form
   createFormGroup() {

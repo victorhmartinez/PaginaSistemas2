@@ -17,7 +17,7 @@
                 <mat-form-field class="w100">
                     <mat-label>Roles Asignados</mat-label>
                     <mat-select formControlName="item_category_id">
-                        <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
+                        <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listCategoryRole">
                             {{itemCategory.nameItemCategory}}
                         </mat-option>
                     </mat-select>

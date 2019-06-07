@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'backendProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'paginaSistemas1',
+        'NAME': 'paginaSistemas',
         'USER': 'dbAdmin',
         'PASSWORD': 'password',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on

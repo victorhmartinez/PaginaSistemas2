@@ -28,11 +28,13 @@ export class CategoryComponent implements OnInit {
 
   deleteCategory(id: number) {
     this.categoryService.deleteCategory(id).subscribe(categories => {
+      this.updateListCategories();
     },
+    
       error => {
         alert(JSON.stringify(error));
       })
-    this.updateListCategories();
+    
   }
 
   ngOnInit() {
