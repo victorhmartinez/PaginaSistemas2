@@ -20,7 +20,7 @@ export class UnirversityCareerService {
     this.apiUrl = environment.apiUrl;
    }
    public getUniversityCareer() { 
-    return this.httpClient.get<ItemCategory[]>(this.apiUrl+'ItemCategoryTitulacion/', this.httpOptions);
+    return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemcategoryTitulacion/', this.httpOptions);
   }
   public getTypeEvent() { 
     return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemCategoryTypeEvent/', this.httpOptions);
