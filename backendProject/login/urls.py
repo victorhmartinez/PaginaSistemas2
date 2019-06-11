@@ -16,7 +16,6 @@ urlpatterns=[
     url(r'^itemcategoryTyeEvent/$',views.ItemCategoryTypeEventList.as_view()),
     url(r'^itemcategoryTypeContent/$',views.ItemCategoryTypeContentList.as_view()),
 
-
     url(r'^itemcategory/(?P<pk>[0-9]+)/$', views.ItemCategoryDetail.as_view()),
     url(r'^itemcategory/$',views.ItemCategoryList.as_view()),
 

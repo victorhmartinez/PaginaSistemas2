@@ -97,13 +97,13 @@ class Info_site_Serializer (serializers.ModelSerializer):
 
 class Content_Serializer (serializers.ModelSerializer):
 
-    type_event = serializers.PrimaryKeyRelatedField(queryset=models.ItemCategory.objects.all())
-    academic_period = serializers.PrimaryKeyRelatedField(queryset=models.ItemCategory.objects.all())
-    cocontent_universitycareer = serializers.PrimaryKeyRelatedField(queryset=models.ItemCategory.objects.all())
-
     class Meta:
         model = models.Content
         fields = "__all__"
+
+    type_event = serializers.PrimaryKeyRelatedField(queryset=models.ItemCategory.objects.all())
+    academic_period = serializers.PrimaryKeyRelatedField(queryset=models.ItemCategory.objects.all())
+    content_universitycareer = serializers.PrimaryKeyRelatedField(queryset=models.ItemCategory.objects.all())
 
 class Content_media_Serializer (serializers.ModelSerializer):
 
