@@ -2,17 +2,19 @@ import { Menu } from './menu';
 
 export class SubMenu {
 
-    subMenu_id: number;
+    idSubMenu: number;
     name: string;
-    orden: string;
-    menu_id: Menu;
+    orden: number;
+    url: string;
+    menu_menu_id: Menu;
     
 
-    constructor(subMenu_id?: number, name?: string, orden?: string, menu_id?: Menu){
-        this.subMenu_id = subMenu_id,
+    constructor(idSubMenu?: number, name?: string, orden?: number, url?: string, menu_menu_id?: Menu){
+        this.idSubMenu = idSubMenu,
         this.name = name,
         this.orden = orden,
-        this.menu_id = menu_id
+        this.url = url,
+        this.menu_menu_id = menu_menu_id
         
     }
 

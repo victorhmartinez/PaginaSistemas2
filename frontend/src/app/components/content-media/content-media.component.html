@@ -8,15 +8,15 @@
               <input matInput formControlName="path" placeholder="Path" autocomplete="off">
             </mat-form-field>
 
+            <mat-form-field class="w100">
+              <mat-label>Categorias</mat-label>
+              <mat-select formControlName="item_category_item_category_id">
+                  <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
+                      {{itemCategory.nameItemCategory}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
 
-              <mat-form-field class="w100">
-                  <mat-label>Categorias</mat-label>
-                  <mat-select formControlName="item_category_item_category_id">
-                      <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
-                          {{itemCategory.nameItemCategory}}
-                      </mat-option>
-                  </mat-select>
-              </mat-form-field>
               <mat-form-field class="w100">
                 <mat-label>Contenido</mat-label>
                 <mat-select formControlName="content_content_id">

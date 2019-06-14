@@ -24,7 +24,7 @@ export class InfoSiteService {
     }
 
     public updateInfoSite(infoSite: InfoSite) {
-      return this.httpClient.put(this.apiUrl+'infoSite/'+infoSite.Site_site_id+'/', infoSite,this.httpOptions);
+      return this.httpClient.put(this.apiUrl+'infoSite/'+infoSite.info_site_id+'/', infoSite,this.httpOptions);
     }
 
     public deleteInfoSite(id: number) { 

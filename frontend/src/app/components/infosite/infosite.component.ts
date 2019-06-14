@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 //Services
+import { SiteService } from '../../services/site.service';
 import { InfoSiteService } from '../../services/infoSite.service';
+import { ItemCategoryService } from '../../services/itemCategory.service';
 //Models
+import { Site } from '../../models/site';
+import { ItemCategory } from '../../models/itemCategory';
 import { InfoSite } from '../../models/infoSite';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
@@ -11,23 +15,43 @@ import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/fo
   styleUrls: ['./infosite.component.css']
 })
 export class InfositeComponent implements OnInit {
+  listSites: Site[] = [];
+  listItemCategories: ItemCategory[] = [];
   listInfoSites: InfoSite[] = [];
   infoSiteForm: FormGroup;
 
   constructor(
-    private infoSiteService: InfoSiteService
+    private siteService: SiteService,
+    private infoSiteService: InfoSiteService,
+    private itemCategoryService: ItemCategoryService,
   ) {
     this.infoSiteForm = this.createFormGroup();
   }
 
-  updateListInfoSite() {
-    this.infoSiteService.getInfoSite().subscribe(infoSite => {
-      this.listInfoSites = infoSite;
-    })
+  updateListSites() {
+    this.siteService.getSite().subscribe(site => {
+      this.listSites = site;
+    });
   }
 
-  deleteInfoSite(Site_site_id: number) {
-    this.infoSiteService.deleteInfoSite(Site_site_id).subscribe(infoSite => {
+  updateListItemCategories() {
+    this.itemCategoryService.getItemCategories().subscribe(itemCategories => {
+      this.listItemCategories = itemCategories;
+    });
+  }
+  //ALL
+  updateListInfoSite() {
+    this.infoSiteService.getInfoSite().subscribe(infosite => {
+      this.listInfoSites = infosite
+    },
+      error => {
+        alert(JSON.stringify(error));
+      }
+    );
+  }
+
+  deleteInfoSite(info_site_id: number) {
+    this.infoSiteService.deleteInfoSite(info_site_id).subscribe(infoSite => {
       this.updateListInfoSite();
     },
       error => {
@@ -37,19 +61,26 @@ export class InfositeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.updateListSites();
+    this.updateListItemCategories();
     this.updateListInfoSite();
   }
-  displayedColumns: string[] = ['description', 'type_info', 'delete', 'update'];
+  displayedColumns: string[] = ['site_site_id', 'description', 'type_info', 'delete', 'update'];
 
   //Create new form
   createFormGroup() {
     return new FormGroup({
-      Site_site_id: new FormControl(),
+      info_site_id: new FormControl(),
+      site_site_id: new FormControl('', [
+        Validators.required,
+      ]),
       description: new FormControl('', [
         Validators.required,
         Validators.maxLength(45)
       ]),
-      type_info: new FormControl()
+      type_info: new FormControl('', [
+        Validators.required,
+      ])
 
     });
   }
@@ -57,7 +88,8 @@ export class InfositeComponent implements OnInit {
   //Load data in form
   loadData(infoSiteEdit: InfoSite) {
     this.infoSiteForm.setValue({
-      Site_site_id: infoSiteEdit.Site_site_id,
+      info_site_id: infoSiteEdit.info_site_id,
+      site_site_id: infoSiteEdit.site_site_id,
       description: infoSiteEdit.description,
       type_info: infoSiteEdit.type_info
     })
@@ -66,7 +98,7 @@ export class InfositeComponent implements OnInit {
   //submit form
 
   submitForm() {
-    if (this.infoSiteForm.value.Site_site_id == null) {
+    if (this.infoSiteForm.value.info_site_id == null) {
       if (this.infoSiteForm.valid) {
         this.infoSiteService.createInfoSite(this.infoSiteForm.value).subscribe(infoSite => {
           this.updateListInfoSite();

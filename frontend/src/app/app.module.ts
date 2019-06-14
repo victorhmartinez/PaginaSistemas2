@@ -24,6 +24,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
 import { InfositeComponent } from './components/infosite/infosite.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
