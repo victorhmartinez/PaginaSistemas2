@@ -6,7 +6,7 @@ import { PersonComponent } from './components/person/person.component';
 import { PersonsroleComponent } from './components/personsrole/personsrole.component';
 import { PersonsmediaComponent } from './components/personsmedia/personsmedia.component';
 import { PersoncontactsComponent } from './components/personcontacts/personcontacts.component';
-import { PersonDepartamentComponent } from './components/person-departament/person-departament.component';
+import {  PersonDepartamentComponent} from './components/person-departament/person-departament.component';
 import { ContentComponent } from './components/content/content.component';
 import { ContentMediaComponent } from './components/content-media/content-media.component';
 import { ContentInfoComponent } from './components/content-info/content-info.component';
@@ -14,6 +14,8 @@ import { SiteComponent } from './components/site/site.component';
 import { InfositeComponent } from './components/infosite/infosite.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
+import { SubjectMatterComponent } from './components/subject-matter/subject-matter.component';
+import { PreRequirementsComponent } from './components/pre-requirements/pre-requirements.component';
 
 const routes: Routes = [
   { path: 'category', component: CategoryComponent },
@@ -29,7 +31,9 @@ const routes: Routes = [
   { path: 'site', component: SiteComponent },
   { path: 'infosite', component: InfositeComponent },
   { path: 'menu', component: MenuComponent },
-  { path: 'subMenu', component: SubmenuComponent }
+  { path: 'subMenu', component: SubmenuComponent },
+  { path: 'subjectMatter', component: SubjectMatterComponent },
+  { path: 'preRequirements', component: PreRequirementsComponent },
 ];
 
 @NgModule({

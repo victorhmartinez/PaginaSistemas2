@@ -91,12 +91,7 @@ updateContent(id: number) {
         Validators.required,
       ]),
 
-      create_time: new FormControl('', [
-        Validators.required,
-      ]),
-      update_time: new FormControl('', [
-        Validators.required,
-      ]),
+   
       
       academic_period: new FormControl('', [
         Validators.required,
@@ -114,7 +109,7 @@ updateContent(id: number) {
       content_id:contentEdit.content_id,
       title: contentEdit.title,
       description: contentEdit.description,
-    
+      
       type_event: contentEdit.type_event,
       academic_period:contentEdit.academic_period,
       content_universitycareer  : contentEdit.content_universitycareer

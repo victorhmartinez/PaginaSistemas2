@@ -20,7 +20,7 @@
               <mat-form-field class="w100">
                 <mat-label>Contenido</mat-label>
                 <mat-select formControlName="content_content_id">
-                    <mat-option [value]="content.content_id" *ngFor="let content of listContentMedia">
+                    <mat-option [value]="content.content_id" *ngFor="let content of listContent">
                         {{content.title}}
                     </mat-option>
                 </mat-select>
@@ -54,13 +54,13 @@
 
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
-        <mat-cell *matCellDef="let contentMedia"><a (click)="deleteItemCategory(itemCategory.idItemCategory)"><i
+        <mat-cell *matCellDef="let contentMedia"><a (click)="deleteContentMedia(contentMedia.content_media_id)"><i
               class="material-icons">delete</i></a></mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="update">
         <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
-        <mat-cell *matCellDef="let contentMedia"><a (click)="loadData(itemCategory)"><i class="material-icons">edit</i></a>
+        <mat-cell *matCellDef="let contentMedia"><a (click)="loadData(contentMedia)"><i class="material-icons">edit</i></a>
         </mat-cell>
       </ng-container>
 

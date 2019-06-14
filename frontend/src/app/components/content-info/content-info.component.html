@@ -3,15 +3,12 @@
       <form [formGroup]="contentInfoForm" #formDirective="ngForm">
           <mat-card-title>Contenido Informacion</mat-card-title>
           <mat-card-content>
-
-            <mat-form-field class="w100">
-              <input matInput formControlName="date" placeholder="Fecha" autocomplete="off">
-            </mat-form-field>
+            
             <mat-form-field class="w100">
               <input matInput formControlName="place" placeholder="Lugar" autocomplete="off">
             </mat-form-field>
             <mat-form-field class="w100">
-              <input matInput formControlName="link_fom" placeholder="Link Fom" autocomplete="off">
+              <input matInput formControlName="link_form" placeholder="Link Fom" autocomplete="off">
             </mat-form-field>
             <mat-form-field class="w100">
               <input matInput formControlName="url" placeholder="Url" autocomplete="off">
@@ -19,7 +16,7 @@
 
               <mat-form-field class="w100">
                   <mat-label>Contenido</mat-label>
-                  <mat-select formControlName="Content_content_id">
+                  <mat-select formControlName="content_content_id">
                       <mat-option [value]="content.content_id" *ngFor="let content of listContent">
                           {{content.title}}
                       </mat-option>
@@ -48,17 +45,17 @@
 
         <ng-container matColumnDef="link_fom">
           <mat-header-cell *matHeaderCellDef> Link Fom </mat-header-cell>
-          <mat-cell *matCellDef="let contentInfo">{{contentInfo.link_fom}} </mat-cell>
+          <mat-cell *matCellDef="let contentInfo">{{contentInfo.link_form}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="url">
           <mat-header-cell *matHeaderCellDef>Urls</mat-header-cell>
-          <mat-cell *matCellDef="let contentInfo">{{contentInfo.urls}} </mat-cell>
+          <mat-cell *matCellDef="let contentInfo">{{contentInfo.url}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="content_id">
           <mat-header-cell *matHeaderCellDef>Contenido</mat-header-cell>
-          <mat-cell *matCellDef="let contentInfo">{{contentInfo.Content_content_id}} </mat-cell>
+          <mat-cell *matCellDef="let contentInfo">{{contentInfo.content_content_id}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="delete">

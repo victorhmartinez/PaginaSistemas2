@@ -23,7 +23,8 @@ import { SiteComponent } from './components/site/site.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
 import { InfositeComponent } from './components/infosite/infosite.component';
-
+import { SubjectMatterComponent } from './components/subject-matter/subject-matter.component';
+import { PreRequirementsComponent } from './components/pre-requirements/pre-requirements.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,8 @@ import { InfositeComponent } from './components/infosite/infosite.component';
     MenuComponent,
     SubmenuComponent,
     InfositeComponent,
+    SubjectMatterComponent,
+    PreRequirementsComponent,
 
   ],
   imports: [

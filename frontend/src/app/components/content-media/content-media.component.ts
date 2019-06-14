@@ -48,9 +48,9 @@ export class ContentMediaComponent implements OnInit {
     );
   }
   //Delete
-deleteContent(id: number) {
+deleteContentMedia(id: number) {
   this.contentMediaService.deleteContentMedia(id).subscribe(contentMedia => {
-    this.updateListContent();
+    this.updateListContentMedia();
   },
     error => {
       alert(JSON.stringify(error));
@@ -91,7 +91,7 @@ loadData(contentMediaEdit: ContentMedia) {
   this.contentMediaForm.setValue({
     content_media_id: contentMediaEdit.content_media_id,
     path : contentMediaEdit.path,
-    item_category_id: contentMediaEdit.item_category_item_category_id,
+    item_category_item_category_id: contentMediaEdit.item_category_item_category_id,
     content_content_id:contentMediaEdit.content_content_id
 
   })
@@ -100,7 +100,7 @@ loadData(contentMediaEdit: ContentMedia) {
 
  //submit form
  submitForm() {
-  if (this.contentMediaForm.value.persons_departaments_id== null) {
+  if (this.contentMediaForm.value.content_media_id== null) {
     if (this.contentMediaForm.valid) {
       this.contentMediaService.createContentMedia(this.contentMediaForm.value).subscribe(contentMedia => {
         this.updateListContentMedia();

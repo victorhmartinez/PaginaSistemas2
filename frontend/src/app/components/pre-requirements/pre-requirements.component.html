@@ -1,0 +1,64 @@
+<section class="container d-flex justify-content-around pt-4">
+  <mat-card class="col-sm-4 d-inline-block align-top h-100">
+      <form [formGroup]="preRequirementsForm" #formDirective="ngForm">
+          <mat-card-title>Pre Requisitos</mat-card-title>
+          <mat-card-content>
+
+              <mat-form-field class="w100">
+                  <mat-label>Materia</mat-label>
+                  <mat-select formControlName="subject_matter_id_id">
+                      <mat-option [value]="subjectMatter.subject_matter_id" *ngFor="let subjectMatter of listSubjectMatter">
+                          {{subjectMatter.name_subject_matter}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+
+
+              <mat-form-field class="w100">
+                  <mat-label>Materia Requisito</mat-label>
+                  <mat-select formControlName="subject_matter_requeriment_id">
+                      <mat-option [value]="subjectMatter.subject_matter_id" *ngFor="let subjectMatter of listSubjectMatter">
+                          {{subjectMatter.name_subject_matter}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+
+          </mat-card-content>
+          <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="submitForm(preRequirementsForm)">Guardar</button>
+              <button mat-raised-button (click)="resetForm()">Cancelar</button>
+          </mat-card-actions>
+      </form>
+  </mat-card>
+  <mat-card class="col-sm-7 d-inline-block">
+
+      <mat-table [dataSource]="listPreRequirements" class="w100" cols="3"> 
+        <ng-container matColumnDef="SubjectMatter">
+          <mat-header-cell *matHeaderCellDef> Materia </mat-header-cell>
+          <mat-cell *matCellDef="let preRequirements"> {{preRequirements.subject_matter_id_id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SubjectMatter_Requirement">
+          <mat-header-cell *matHeaderCellDef> Materia Requisito </mat-header-cell>
+          <mat-cell *matCellDef="let preRequirements">{{preRequirements.subject_matter_requeriment_id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
+          <mat-cell *matCellDef="let preRequirements"><a (click)="deletepreRequirements(preRequirements.pre_requirements_id)"><i
+              class="material-icons">delete</i></a></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+            <mat-header-cell *matHeaderCellDef> Actualizar </mat-header-cell>
+            <mat-cell *matCellDef="let preRequirements"><a (click)="loadData(preRequirements)"><i class="material-icons">edit</i></a>
+            </mat-cell>
+          </ng-container>
+  
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-card>
+
+</section>

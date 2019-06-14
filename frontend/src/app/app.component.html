@@ -19,7 +19,7 @@
       </mat-card>
       <mat-list-item>
         <button class="menu-item" mat-flat-button [routerLink]="['/category']">
-          <mat-icon>dashboard</mat-icon>
+          <mat-icon>category</mat-icon>
           Categorías
         </button>
       </mat-list-item>
@@ -118,6 +118,21 @@
           </button>
         </mat-list-item>
       
+         <!--Subject Matter-->
+      <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/subjectMatter']">
+          <mat-icon>filter_none</mat-icon>
+          Materias
+        </button>
+      </mat-list-item>
+       <!--Pre-Requirements-->
+       <mat-list-item>
+        <button class="menu-item" mat-flat-button [routerLink]="['/preRequirements']">
+          <mat-icon>file_copy</mat-icon>
+          Pre Requisitos
+        </button>
+      </mat-list-item>
+
       <mat-list-item>
         <button class="menu-item" mat-flat-button>
           <mat-icon>settings_application</mat-icon>

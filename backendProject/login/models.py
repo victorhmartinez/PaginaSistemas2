@@ -32,8 +32,8 @@ class Persons(models.Model):
 class Persons_departaments (models.Model):
     persons_departaments_id = models.AutoField(primary_key=True)
     persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
-    item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE, related_name="item_category_id")
-    universitycareer = models.ForeignKey(ItemCategory, on_delete = models.CASCADE, related_name="universitycareer")
+    item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE,null=True, related_name="item_category_id")
+    universitycareer = models.ForeignKey(ItemCategory, on_delete = models.CASCADE, null=True,related_name="universitycareer")
 
 class Persons_role (models.Model):
     persons_role_id = models.AutoField(primary_key=True)
