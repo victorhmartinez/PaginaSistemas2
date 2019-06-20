@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 //Services
 import { SubMenuService } from '../../services/subMenu.service';
 import { MenuService } from '../../services/menu.service';
@@ -7,6 +7,7 @@ import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../models/menu';
 import { SubMenu } from '../../models/subMenu';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-submenu',
@@ -17,6 +18,8 @@ export class SubmenuComponent implements OnInit {
   listSubMenu: SubMenu[] = [];
   listMenu: Menu[] = [];
   subMenuForm: FormGroup;
+  data:MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   constructor(
     private menuService: MenuService,
@@ -35,13 +38,18 @@ export class SubmenuComponent implements OnInit {
   updateListSubMenu() {
     this.subMenuService.getSubMenu().subscribe(subMenu => {
       this.listSubMenu = subMenu
+      this.data= new MatTableDataSource<SubMenu>(this.listSubMenu);
+      this.data.paginator=this.paginator;
     },
       error => {
         alert(JSON.stringify(error));
       }
     );
   }
-
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
+}
   deleteSubMenu(id: number) {
     this.subMenuService.deleteSubMenu(id).subscribe(subMenu => {
       this.updateListSubMenu();

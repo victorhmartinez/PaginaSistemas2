@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 //Services
 import { InfoSiteService } from '../../services/infoSite.service';
 //Models
 import { InfoSite } from '../../models/infoSite';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-infosite',
@@ -13,19 +14,25 @@ import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/fo
 export class InfositeComponent implements OnInit {
   listInfoSites: InfoSite[] = [];
   infoSiteForm: FormGroup;
+  data:MatTableDataSource<any>;
 
   constructor(
     private infoSiteService: InfoSiteService
   ) {
     this.infoSiteForm = this.createFormGroup();
   }
-
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
   updateListInfoSite() {
     this.infoSiteService.getInfoSite().subscribe(infoSite => {
       this.listInfoSites = infoSite;
+      this.data= new MatTableDataSource<InfoSite>(this.listInfoSites);
+      this.data.paginator=this.paginator;
     })
   }
-
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
+}
   deleteInfoSite(Site_site_id: number) {
     this.infoSiteService.deleteInfoSite(Site_site_id).subscribe(infoSite => {
       this.updateListInfoSite();

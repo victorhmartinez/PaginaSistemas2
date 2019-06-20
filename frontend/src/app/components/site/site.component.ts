@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 //Services
 import { SiteService } from '../../services/site.service';
 //Models
 import { Site } from '../../models/site';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-site',
@@ -13,19 +14,26 @@ import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/fo
 export class SiteComponent implements OnInit {
   listSites: Site[] = [];
   siteForm: FormGroup;
+  data:MatTableDataSource<any>;
 
   constructor(
     private siteServices: SiteService
   ) {
     this.siteForm = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   updateListSites() {
     this.siteServices.getSite().subscribe(person => {
       this.listSites = person;
+      this.data= new MatTableDataSource<Site>(this.listSites);
+      this.data.paginator=this.paginator;
     })
   }
-
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
+}
   deleteSites(site_id: number) {
     this.siteServices.deleteSite(site_id).subscribe(site => {
       this.updateListSites();

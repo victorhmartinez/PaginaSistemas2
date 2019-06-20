@@ -2,6 +2,7 @@ import { Component, OnInit, SystemJsNgModuleLoader, ViewChild } from '@angular/c
 import { Person } from '../../models/person';
 import { PersonService } from '../../services/person.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 
 @Component({
@@ -14,16 +15,23 @@ export class PersonComponent implements OnInit {
   
   listPersons: Person[] = [];
   personForm: FormGroup;
-  
+  data:MatTableDataSource<any>;
   constructor(
     private personServices: PersonService
   ) { 
     this.personForm = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
   updateListPersons() {
     this.personServices.getPersons().subscribe(person => {
       this.listPersons = person;
+      this.data= new MatTableDataSource <Person>(this.listPersons);
+      this.data.paginator= this.paginator;
     })
+  }
+  //Filter the table
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
   }
   deletePersons(person_id: number) {
     this.personServices.deletePersons(person_id).subscribe(person => {

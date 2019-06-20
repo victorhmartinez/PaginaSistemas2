@@ -22,7 +22,10 @@
   </mat-card>
 
   <mat-card class="col-sm-7 d-inline-block">
-    <mat-table [dataSource]="listSites" class="w100" cols="3">
+      <mat-form-field class= "w100">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+        </mat-form-field>
+    <mat-table [dataSource]="data" class="w100" cols="3">
       <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef>Sitio</mat-header-cell>
         <mat-cell *matCellDef="let site"> {{site.title}} </mat-cell>
@@ -52,5 +55,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </mat-card>
 </section>
