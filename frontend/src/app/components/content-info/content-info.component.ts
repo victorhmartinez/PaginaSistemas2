@@ -63,19 +63,17 @@ updateContentInfo(id: number) {
        return new FormGroup({
    
         content_info_id: new FormControl(),
-        date: new FormControl('', [
-           Validators.required,
-         ]),
+        
          place: new FormControl('', [
            Validators.required,
          ]),
-         link_fom: new FormControl('', [
+         link_form: new FormControl('', [
            Validators.required,
          ]),
          url: new FormControl('', [
           Validators.required,
         ]),
-        Content_content_id :new FormControl('', [
+        content_content_id :new FormControl('', [
           Validators.required,
         ]),
        });
@@ -85,11 +83,10 @@ updateContentInfo(id: number) {
 loadData(contentInfoEdit: ContentInfo) {
   this.contentInfoForm.setValue({
     content_info_id: contentInfoEdit.content_info_id,
-    date : contentInfoEdit.date,
     place: contentInfoEdit.place,
-    link_fom:contentInfoEdit.link_fom,
-    url: contentInfoEdit.urls,
-    Content_content_id:contentInfoEdit.Content_content_id,
+    link_form:contentInfoEdit.link_form,
+    url: contentInfoEdit.url,
+    content_content_id:contentInfoEdit.content_content_id,
     
 
   })

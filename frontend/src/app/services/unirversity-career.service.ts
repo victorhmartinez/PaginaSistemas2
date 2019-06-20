@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { PersonDepartament } from '../models/person-departament';
+
 import { ItemCategory } from '../models/itemCategory';
 
 @Injectable({
@@ -23,9 +23,9 @@ export class UnirversityCareerService {
     return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemcategoryTitulacion/', this.httpOptions);
   }
   public getTypeEvent() { 
-    return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemCategoryTypeEvent/', this.httpOptions);
+    return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemcategoryTyeEvent/', this.httpOptions);
   }
   public getAcademicPeriod() { 
-    return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemCategoryAcademicPeriod/', this.httpOptions);
+    return this.httpClient.get<ItemCategory[]>(this.apiUrl+'itemcategoryAcademicPeriod/', this.httpOptions);
   }
 }
