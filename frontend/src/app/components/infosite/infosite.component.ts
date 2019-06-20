@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 //Services
+import { SiteService } from '../../services/site.service';
 import { InfoSiteService } from '../../services/infoSite.service';
+import { ItemCategoryService } from '../../services/itemCategory.service';
 //Models
+import { Site } from '../../models/site';
+import { ItemCategory } from '../../models/itemCategory';
 import { InfoSite } from '../../models/infoSite';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
@@ -12,29 +16,44 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
   styleUrls: ['./infosite.component.css']
 })
 export class InfositeComponent implements OnInit {
+  listSites: Site[] = [];
+  listItemCategories: ItemCategory[] = [];
   listInfoSites: InfoSite[] = [];
   infoSiteForm: FormGroup;
   data:MatTableDataSource<any>;
 
   constructor(
-    private infoSiteService: InfoSiteService
+    private siteService: SiteService,
+    private infoSiteService: InfoSiteService,
+    private itemCategoryService: ItemCategoryService,
   ) {
     this.infoSiteForm = this.createFormGroup();
   }
-  @ViewChild(MatPaginator) paginator: MatPaginator; 
-  updateListInfoSite() {
-    this.infoSiteService.getInfoSite().subscribe(infoSite => {
-      this.listInfoSites = infoSite;
-      this.data= new MatTableDataSource<InfoSite>(this.listInfoSites);
-      this.data.paginator=this.paginator;
-    })
+
+  updateListSites() {
+    this.siteService.getSite().subscribe(site => {
+      this.listSites = site;
+    });
   }
-//Filter the table
-applyFilter(filterValue: string) {
-  this.data.filter = filterValue.trim().toLowerCase();
-}
-  deleteInfoSite(Site_site_id: number) {
-    this.infoSiteService.deleteInfoSite(Site_site_id).subscribe(infoSite => {
+
+  updateListItemCategories() {
+    this.itemCategoryService.getItemCategories().subscribe(itemCategories => {
+      this.listItemCategories = itemCategories;
+    });
+  }
+  //ALL
+  updateListInfoSite() {
+    this.infoSiteService.getInfoSite().subscribe(infosite => {
+      this.listInfoSites = infosite
+    },
+      error => {
+        alert(JSON.stringify(error));
+      }
+    );
+  }
+
+  deleteInfoSite(info_site_id: number) {
+    this.infoSiteService.deleteInfoSite(info_site_id).subscribe(infoSite => {
       this.updateListInfoSite();
     },
       error => {
@@ -44,19 +63,26 @@ applyFilter(filterValue: string) {
   }
 
   ngOnInit() {
+    this.updateListSites();
+    this.updateListItemCategories();
     this.updateListInfoSite();
   }
-  displayedColumns: string[] = ['description', 'type_info', 'delete', 'update'];
+  displayedColumns: string[] = ['site_site_id', 'description', 'type_info', 'delete', 'update'];
 
   //Create new form
   createFormGroup() {
     return new FormGroup({
-      Site_site_id: new FormControl(),
+      info_site_id: new FormControl(),
+      site_site_id: new FormControl('', [
+        Validators.required,
+      ]),
       description: new FormControl('', [
         Validators.required,
         Validators.maxLength(45)
       ]),
-      type_info: new FormControl()
+      type_info: new FormControl('', [
+        Validators.required,
+      ])
 
     });
   }
@@ -64,7 +90,8 @@ applyFilter(filterValue: string) {
   //Load data in form
   loadData(infoSiteEdit: InfoSite) {
     this.infoSiteForm.setValue({
-      Site_site_id: infoSiteEdit.Site_site_id,
+      info_site_id: infoSiteEdit.info_site_id,
+      site_site_id: infoSiteEdit.site_site_id,
       description: infoSiteEdit.description,
       type_info: infoSiteEdit.type_info
     })
@@ -73,7 +100,7 @@ applyFilter(filterValue: string) {
   //submit form
 
   submitForm() {
-    if (this.infoSiteForm.value.Site_site_id == null) {
+    if (this.infoSiteForm.value.info_site_id == null) {
       if (this.infoSiteForm.valid) {
         this.infoSiteService.createInfoSite(this.infoSiteForm.value).subscribe(infoSite => {
           this.updateListInfoSite();

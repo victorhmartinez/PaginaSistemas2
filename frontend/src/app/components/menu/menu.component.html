@@ -14,7 +14,7 @@
 
               <mat-form-field class="w100">
                   <mat-label>Categorias</mat-label>
-                  <mat-select formControlName="item_category_id">
+                  <mat-select formControlName="item_category_item_category_id">
                       <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
                           {{itemCategory.nameItemCategory}}
                       </mat-option>
@@ -46,7 +46,7 @@
 
         <ng-container matColumnDef="itemCategory">
           <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
-          <mat-cell *matCellDef="let menu">{{menu.item_category_id}} </mat-cell>
+          <mat-cell *matCellDef="let menu">{{menu.item_category_item_category_id}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="delete">

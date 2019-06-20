@@ -3,12 +3,29 @@
     <form [formGroup]="infoSiteForm" #formDirective="ngForm">
       <mat-card-title>Informacion Sitio</mat-card-title>
       <mat-card-content>
+
+        <mat-form-field class="w100">
+          <mat-label>Sitios</mat-label>
+          <mat-select formControlName="site_site_id">
+            <mat-option [value]="site.site_id" *ngFor="let site of listSites">
+              {{site.title}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <mat-form-field class="w100">
           <input matInput formControlName="description" placeholder="Descripcion" autocomplete="off">
         </mat-form-field>
+
         <mat-form-field class="w100">
-          <input matInput formControlName="type_info" placeholder="Tipo Informacion" autocomplete="off">
+          <mat-label>Categorias</mat-label>
+          <mat-select formControlName="type_info">
+            <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
+              {{itemCategory.nameItemCategory}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
+
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button color="primary" (click)="submitForm(infoSiteForm)">Guardar</button>
@@ -23,19 +40,26 @@
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
         </mat-form-field>
     <mat-table [dataSource]="data" class="w100" cols="3">
+    
+
+      <ng-container matColumnDef="site_site_id">
+        <mat-header-cell *matHeaderCellDef>Sitio</mat-header-cell>
+        <mat-cell *matCellDef="let infoSite"> {{infoSite.site_site_id}} </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="description">
         <mat-header-cell *matHeaderCellDef>Descripcion</mat-header-cell>
         <mat-cell *matCellDef="let infoSite"> {{infoSite.description}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="type_info">
-        <mat-header-cell *matHeaderCellDef> Tipo Informacion </mat-header-cell>
-        <mat-cell *matCellDef="let infoSite"> {{infoSite.type_info}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
+        <mat-cell *matCellDef="let infoSite">{{infoSite.type_info}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Eliminar </mat-header-cell>
-        <mat-cell *matCellDef="let infoSite"><a (click)="deleteInfoSite(infoSite.Site_site_id)"><i
+        <mat-cell *matCellDef="let infoSite"><a (click)="deleteInfoSite(infoSite.info_site_id)"><i
               class="material-icons">delete</i></a></mat-cell>
       </ng-container>
 

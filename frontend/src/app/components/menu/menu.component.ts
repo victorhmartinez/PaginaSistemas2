@@ -84,7 +84,7 @@ applyFilter(filterValue: string) {
       orden: new FormControl('', [
         Validators.required,
       ]),
-      item_category_id: new FormControl('', [
+      item_category_item_category_id: new FormControl('', [
         Validators.required,
       ]), 
     });
@@ -96,7 +96,7 @@ applyFilter(filterValue: string) {
       menu_id: menuEdit.menu_id,
       name: menuEdit.name,
       orden: menuEdit.orden,
-      item_category_id: menuEdit.item_category_id,
+      item_category_item_category_id: menuEdit.item_category_item_category_id,
 
     })
   }

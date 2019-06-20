@@ -51,7 +51,7 @@ applyFilter(filterValue: string) {
   this.data.filter = filterValue.trim().toLowerCase();
 }
   deleteSubMenu(id: number) {
-    this.subMenuService.deleteSubMenu(id).subscribe(subMenu => {
+    this.subMenuService.deleteSubMenu(id).subscribe(persons => {
       this.updateListSubMenu();
     },
       error => {
@@ -69,20 +69,23 @@ applyFilter(filterValue: string) {
     this.updateListMenu();
   }
 
-  displayedColumns: string[] = ['name', 'orden', 'menu', 'delete', 'update'];
+  displayedColumns: string[] = ['name', 'orden','url', 'menu', 'delete', 'update'];
 
   createFormGroup() {
     return new FormGroup({
-      subMenu_id: new FormControl(),
+      idSubMenu: new FormControl(),
       name: new FormControl('', [
         Validators.required,
         Validators.maxLength(45)
       ]),
       orden:  new FormControl('', [
-        Validators.required,
-        Validators.maxLength(45)
+        Validators.required
       ]),
-      menu_id: new FormControl('', [
+      url:  new FormControl('', [
+        Validators.required,
+        Validators.maxLength(200)
+      ]),
+      menu_menu_id: new FormControl('', [
         Validators.required,
       ]), 
     });
@@ -91,17 +94,18 @@ applyFilter(filterValue: string) {
   //Load data in form
   loadData(subMenuEdit: SubMenu) {
     this.subMenuForm.setValue({
-      subMenu_id: subMenuEdit.subMenu_id,
+      idSubMenu: subMenuEdit.idSubMenu,
       name: subMenuEdit.name,
       orden: subMenuEdit.orden,
-      menu_id: subMenuEdit.menu_id,
+      url: subMenuEdit.url,
+      menu_menu_id: subMenuEdit.menu_menu_id,
 
     })
   }
   
   //submit form
   submitForm() {
-    if (this.subMenuForm.value.subMenu_id == null) {
+    if (this.subMenuForm.value.idSubMenu == null) {
       if (this.subMenuForm.valid) {
         this.subMenuService.createSubMenu(this.subMenuForm.value).subscribe(subMenu => {
           this.updateListSubMenu();
