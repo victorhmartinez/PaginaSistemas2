@@ -29,6 +29,7 @@ export class InfositeComponent implements OnInit {
   ) {
     this.infoSiteForm = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   updateListSites() {
     this.siteService.getSite().subscribe(site => {
@@ -45,6 +46,8 @@ export class InfositeComponent implements OnInit {
   updateListInfoSite() {
     this.infoSiteService.getInfoSite().subscribe(infosite => {
       this.listInfoSites = infosite
+      this.data= new MatTableDataSource <InfoSite>(this.listInfoSites);
+      this.data.paginator= this.paginator;
     },
       error => {
         alert(JSON.stringify(error));
@@ -60,6 +63,10 @@ export class InfositeComponent implements OnInit {
         alert(JSON.stringify(error));
       })
 
+  }
+   //Filter the table
+   applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
   }
 
   ngOnInit() {

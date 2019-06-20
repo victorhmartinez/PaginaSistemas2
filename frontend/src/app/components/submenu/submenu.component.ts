@@ -27,6 +27,7 @@ export class SubmenuComponent implements OnInit {
   ) {
     this.subMenuForm = this.createFormGroup();
   }
+  
 
   updateListMenu() {
     this.menuService.getMenu().subscribe(menu => {
