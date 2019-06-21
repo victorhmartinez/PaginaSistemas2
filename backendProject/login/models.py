@@ -1,6 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import User, AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Category (models.Model):
     idCategory = models.AutoField(primary_key=True)
@@ -28,6 +30,15 @@ class Persons(models.Model):
 
     def __str__(self):
         return self.first_name +" "+ self.first_last_name
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance,created,**kwargs):
+    if created:
+        Persons.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance,**kwargs):
+    instance.profile.save()
 
 class Persons_departaments (models.Model):
     persons_departaments_id = models.AutoField(primary_key=True)

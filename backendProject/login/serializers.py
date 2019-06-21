@@ -1,6 +1,14 @@
 from rest_framework import serializers
 from . import models
-from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Site, Info_site, Content, Content_media, Content_info, Menu, SubMenu
+from login.models import Users, Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Site, Info_site, Content, Content_media, Content_info, Menu, SubMenu
+
+class UserSerializer(serializers.ModelSerializer):
+
+    persons_id = serializers.PrimaryKeyRelatedField(queryset=models.Persons.objects.all())
+
+    class Meta:
+        model = models.Users
+        fields = "__all__"
 
 class CategorySerializer (serializers.ModelSerializer):
 
@@ -15,12 +23,6 @@ class ItemCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ItemCategory
         fields = "__all__"   
-
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.Users
-        fields = "__all__"
 
 class PersonsSerializer (serializers.ModelSerializer):
     class Meta:

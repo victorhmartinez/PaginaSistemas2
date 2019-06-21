@@ -241,10 +241,10 @@ def login(request):
     return Response({'token': token.key}, status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes((IsAuthenticated,))
 def usuario(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         users = models.Users.objects.all()
         serializer = serializers.UserSerializer(users, many=True)
         return Response(serializer.data)
