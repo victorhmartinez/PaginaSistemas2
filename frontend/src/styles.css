@@ -70,3 +70,9 @@ body {
 .w100{
     width: 100%;
 }
+
+@media screen and (max-width:1024px) and (min-width:640px){
+    #sidenavContainer .sidenav-spacer{
+        flex: 1 1 auto;
+    }
+}

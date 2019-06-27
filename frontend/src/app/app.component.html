@@ -5,9 +5,9 @@
   <mat-icon class="toolbar-icon" matBadge="8" matBadgePosition="after" matBadgeColor="accent">notifications</mat-icon>
 </mat-toolbar>
 
-<mat-sidenav-container id="sidenavContainer" fullscreen>
+<mat-sidenav-container fxFlexFill id="sidenavContainer" fullscreen>
   <mat-sidenav mode="side" #sidenav id="sidenav" [class.menu-open]="isMenuOpen" [class.menu-close]="!isMenuOpen" opened>
-
+      <span class="sidenav-spacer"></span>
     <mat-list id="menus">
       <mat-card>
         <mat-card-header>
