@@ -3,6 +3,14 @@ mat-card-actions{
     border-bottom: 0em;
     margin-bottom: 0em;
 }
-table {
-    width: 100%;
-  }
+@media screen and (max-width:1024px) and (min-width:640px){
+    .contenedor{
+        float: center;
+        background-color: blueviolet;
+    }
+    .tabla{
+        float: center;
+        font-family: 'Courier New', Courier, monospace;
+    }
+ }
+
