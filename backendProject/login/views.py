@@ -11,10 +11,9 @@ from rest_framework import generics, viewsets, status
 from . import models
 from . import serializers
 
-
 from rest_framework.permissions import IsAuthenticated
-from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Site, Info_site, Content, Content_media, Content_info, Menu, SubMenu
-from login.serializers import CategorySerializer, ItemCategorySerializer, PersonsSerializer, Persons_depaSerializer, Persons_roleSerializer, Persons_mediaSerializer, Persons_ContactSerializer, Subject_matter_Serializer, Pre_requirements_Serializer, Site_Serializer, Info_site_Serializer, Content_Serializer, Content_media_Serializer, Content_info_Serializer, Menu_Serializer, SubMenu_Serializer
+from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Site, Info_site, Content, Content_media, Content_info, Menu
+from login.serializers import CategorySerializer, ItemCategorySerializer, PersonsSerializer, Persons_depaSerializer, Persons_roleSerializer, Persons_mediaSerializer, Persons_ContactSerializer, Subject_matter_Serializer, Pre_requirements_Serializer, Site_Serializer, Info_site_Serializer, Content_Serializer, Content_media_Serializer, Content_info_Serializer, Menu_Serializer
 
 @permission_classes((AllowAny,))
 class ItemCategoryRolList (generics.ListAPIView):
@@ -29,7 +28,7 @@ class ItemCategoryRolList (generics.ListAPIView):
 @permission_classes((AllowAny,))
 class ItemCategoryTitulacionList (generics.ListAPIView):
     try:
-        categoryTitulacion = models.Category.objects.get(nameCategory="titulación")
+        categoryTitulacion = models.Category.objects.get(nameCategory="titulacion")
         queryset = models.ItemCategory.objects.filter(category=categoryTitulacion)
         serializer_class = ItemCategorySerializer
     except ObjectDoesNotExist:
@@ -65,7 +64,6 @@ class ItemCategoryTypeEventList (generics.ListAPIView):
     except ObjectDoesNotExist:
         queryset = models.ItemCategory.objects.none()
         serializer_class = ItemCategorySerializer
-
 @permission_classes((AllowAny,))
 class CategoryList (generics.ListCreateAPIView):
     queryset = models.Category.objects.all()
@@ -216,16 +214,6 @@ class MenuDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Menu.objects.all()
     serializer_class = Menu_Serializer
 
-@permission_classes ((AllowAny,))
-class SubMenuList(generics.ListCreateAPIView):
-    queryset = models.SubMenu.objects.all()
-    serializer_class = SubMenu_Serializer
-
-@permission_classes ((AllowAny,))
-class SubMenuDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.SubMenu.objects.all()
-    serializer_class = SubMenu_Serializer
-
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
@@ -242,9 +230,9 @@ def login(request):
 
 @csrf_exempt
 @api_view(["POST"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 def usuario(request):
     if request.method == 'POST':
         users = models.Users.objects.all()
-        serializer = serializers.UserSerializer(users, many=True)
+        serializer = serializers.UsersSerializer(users, many=True)
         return Response(serializer.data)

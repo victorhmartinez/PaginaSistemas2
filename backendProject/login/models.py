@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.models import PermissionsMixin, BaseUserManager
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.utils.translation import ugettext_lazy as _
 
 class Category (models.Model):
     idCategory = models.AutoField(primary_key=True)
@@ -27,18 +27,8 @@ class Persons(models.Model):
     second_name = models.CharField(max_length=255)
     first_last_name = models.CharField(max_length=255)
     second_last_name = models.CharField(max_length=255)
-
     def __str__(self):
         return self.first_name +" "+ self.first_last_name
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance,created,**kwargs):
-    if created:
-        Persons.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance,**kwargs):
-    instance.profile.save()
 
 class Persons_departaments (models.Model):
     persons_departaments_id = models.AutoField(primary_key=True)
@@ -123,15 +113,26 @@ class Menu (models.Model):
     orden = models.IntegerField(null=False)
     item_category_item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
 
-class SubMenu (models.Model):
-    idSubMenu = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, null=False)
-    orden = models.IntegerField(null=False)
-    url = models.CharField(max_length=200, null=False)
-    menu_menu_id = models.ForeignKey(Menu, on_delete = models.CASCADE)
-
-
 class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, email, person_id, password, **extra_fields):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('The given email must be set')
+        person_id = Persons.objects.get(person_id=person_id)
+        email = self.normalize_email(email)
+        user = self.model(username = username, email = email, person_id = person_id)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
+
     def create_superuser(self, person_id, username, email, password):
         person_id = Persons.objects.get(person_id=person_id)
         user = self.model(username = username, email = email, person_id = person_id)
@@ -147,27 +148,26 @@ class Users(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=15, unique=True, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
     is_admin = models.BooleanField(default=True)
-    is_superuser = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
     update_time = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(blank=True, null=True, verbose_name='last login')
+    is_staff = models.BooleanField(default=False, verbose_name='is staff')
     create_time = models.DateTimeField(default=timezone.now)
-    person_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
+    person_id = models.OneToOneField(Persons, on_delete = models.CASCADE)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email','person_id']
 
-    class Meta:
-        verbose_name = ('User')
-        verbose_name_plural = ('Users')
-
     objects = UserManager()
 
-
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+    
     def has_perm(self, perm, obj=None):
         return True
         
     def has_module_perms(self, app_label):
         return True
 
-    def is_staff(self):
-        return self.is_staff

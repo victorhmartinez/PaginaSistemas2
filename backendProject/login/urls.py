@@ -7,9 +7,10 @@ urlpatterns=[
     url(r'login/', views.login, name="login" ),
     #url(r'^login$', views.login),
     url(r'^usuario$', views.usuario),
-    #url(r'api-token-auth/', viewsToken.obtain_auth_token, name="api-token-auth" ),  
+    #url(r'^api-token-auth/', viewsToken.obtain_auth_token, name="api-token-auth" ),    
     url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryDetail.as_view()),
     url(r'^category/$',views.CategoryList.as_view()),
+    
     url(r'^itemcategoryRol/$',views.ItemCategoryRolList.as_view()),
     url(r'^itemcategoryTitulacion/$',views.ItemCategoryTitulacionList.as_view()),
     url(r'^itemcategoryAcademicPeriod/$',views.ItemCategoryAcademicPeriodList.as_view()),
@@ -45,6 +46,4 @@ urlpatterns=[
     url(r'^contentInfo/(?P<pk>[0-9]+)/$', views.Content_infoDetail.as_view()),
     url(r'^menu/$',views.MenuList.as_view()),
     url(r'^menu/(?P<pk>[0-9]+)/$', views.MenuDetail.as_view()),
-    url(r'^subMenu/$',views.SubMenuList.as_view()),
-    url(r'^subMenu/(?P<pk>[0-9]+)/$', views.SubMenuDetail.as_view())
 ]
