@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+
 
 @Component({
   selector: 'app-category',
@@ -12,18 +14,25 @@ export class CategoryComponent implements OnInit {
 
   listCategories: Category[] = [];
   categoryForm: FormGroup;
-
+  data:MatTableDataSource<any>;
   constructor(
     private categoryService: CategoryService
 
   ) {
     this.categoryForm = this.createFormGroup();
   }
+    @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   updateListCategories() {
     this.categoryService.getCategories().subscribe(categories => {
       this.listCategories = categories;
+      this.data= new MatTableDataSource<Category>(this.listCategories);
+      this.data.paginator=this.paginator;
     })
+    
+  }
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
   }
 
   deleteCategory(id: number) {
@@ -36,9 +45,12 @@ export class CategoryComponent implements OnInit {
       })
     
   }
+  
 
   ngOnInit() {
     this.updateListCategories();
+    
+    
   }
 
   displayedColumns: string[] = ['nameCategory', 'active', 'delete', 'update'];

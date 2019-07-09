@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 //Services
 import { SubMenuService } from '../../services/subMenu.service';
 import { MenuService } from '../../services/menu.service';
@@ -7,6 +7,7 @@ import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../models/menu';
 import { SubMenu } from '../../models/subMenu';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-submenu',
@@ -17,6 +18,8 @@ export class SubmenuComponent implements OnInit {
   listSubMenu: SubMenu[] = [];
   listMenu: Menu[] = [];
   subMenuForm: FormGroup;
+  data:MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   constructor(
     private menuService: MenuService,
@@ -24,6 +27,7 @@ export class SubmenuComponent implements OnInit {
   ) {
     this.subMenuForm = this.createFormGroup();
   }
+  
 
   updateListMenu() {
     this.menuService.getMenu().subscribe(menu => {
@@ -35,15 +39,20 @@ export class SubmenuComponent implements OnInit {
   updateListSubMenu() {
     this.subMenuService.getSubMenu().subscribe(subMenu => {
       this.listSubMenu = subMenu
+      this.data= new MatTableDataSource<SubMenu>(this.listSubMenu);
+      this.data.paginator=this.paginator;
     },
       error => {
         alert(JSON.stringify(error));
       }
     );
   }
-
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
+}
   deleteSubMenu(id: number) {
-    this.subMenuService.deleteSubMenu(id).subscribe(subMenu => {
+    this.subMenuService.deleteSubMenu(id).subscribe(persons => {
       this.updateListSubMenu();
     },
       error => {
@@ -61,20 +70,23 @@ export class SubmenuComponent implements OnInit {
     this.updateListMenu();
   }
 
-  displayedColumns: string[] = ['name', 'orden', 'menu', 'delete', 'update'];
+  displayedColumns: string[] = ['name', 'orden','url', 'menu', 'delete', 'update'];
 
   createFormGroup() {
     return new FormGroup({
-      subMenu_id: new FormControl(),
+      idSubMenu: new FormControl(),
       name: new FormControl('', [
         Validators.required,
         Validators.maxLength(45)
       ]),
       orden:  new FormControl('', [
-        Validators.required,
-        Validators.maxLength(45)
+        Validators.required
       ]),
-      menu_id: new FormControl('', [
+      url:  new FormControl('', [
+        Validators.required,
+        Validators.maxLength(200)
+      ]),
+      menu_menu_id: new FormControl('', [
         Validators.required,
       ]), 
     });
@@ -83,17 +95,18 @@ export class SubmenuComponent implements OnInit {
   //Load data in form
   loadData(subMenuEdit: SubMenu) {
     this.subMenuForm.setValue({
-      subMenu_id: subMenuEdit.subMenu_id,
+      idSubMenu: subMenuEdit.idSubMenu,
       name: subMenuEdit.name,
       orden: subMenuEdit.orden,
-      menu_id: subMenuEdit.menu_id,
+      url: subMenuEdit.url,
+      menu_menu_id: subMenuEdit.menu_menu_id,
 
     })
   }
   
   //submit form
   submitForm() {
-    if (this.subMenuForm.value.subMenu_id == null) {
+    if (this.subMenuForm.value.idSubMenu == null) {
       if (this.subMenuForm.valid) {
         this.subMenuService.createSubMenu(this.subMenuForm.value).subscribe(subMenu => {
           this.updateListSubMenu();

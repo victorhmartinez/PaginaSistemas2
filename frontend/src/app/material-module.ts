@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+
 import {
     MatToolbarModule,
     MatIconModule,
@@ -14,6 +15,7 @@ import {
     MatGridListModule,
     MatSelectModule,
     MatOptionModule,
+    MatPaginatorModule,
    
 } from '@angular/material';
 
@@ -33,6 +35,7 @@ import {
         MatGridListModule,
         MatSelectModule,
         MatOptionModule,
+        MatPaginatorModule,
         
     ],
     exports: [
@@ -49,7 +52,9 @@ import {
         MatGridListModule,
         MatSelectModule,
         MatOptionModule,
+        MatPaginatorModule,
         
     ]
+    
 })
 export class MaterialModule { }

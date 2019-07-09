@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 //Services
 import { PersonsRoleService  } from '../../services/persons-role.service';
 import { ItemCategoryService } from '../../services/itemCategory.service';
@@ -10,6 +10,7 @@ import { ItemCategory } from '../../models/itemCategory';
 import { PersonsRole } from '../../models/personsRole';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ItemCategoryRoleService } from 'src/app/services/itemCategoryRole.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-personsrole',
@@ -23,6 +24,7 @@ export class PersonsroleComponent implements OnInit {
   listPersonsRole: PersonsRole[] = [];
   listCategoryRole: PersonsRole[] = [];
   personsRoleForm: FormGroup;
+  data:MatTableDataSource<any>;
 
   constructor(
     private personsRoleService: PersonsRoleService ,
@@ -31,6 +33,7 @@ export class PersonsroleComponent implements OnInit {
   ) {
     this.personsRoleForm = this.createFormGroup();
    }
+   @ViewChild(MatPaginator) paginator: MatPaginator; 
   
   //Persons and Categories
   updateListPersons() {
@@ -49,13 +52,18 @@ export class PersonsroleComponent implements OnInit {
   updateListPersonsRole() {
     this.personsRoleService.getPersonsRole().subscribe(personsRole => {
       this.listPersonsRole = personsRole
+      this.data= new MatTableDataSource<PersonsRole>(this.listPersonsRole);
+      this.data.paginator=this.paginator;
     },
       error => {
         alert(JSON.stringify(error));
       }
     );
   }
-
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
+}
   deletePersonsRole(id: number) {
     this.personsRoleService.deletePersonsRole(id).subscribe(persons => {
       this.updateListPersonsRole();

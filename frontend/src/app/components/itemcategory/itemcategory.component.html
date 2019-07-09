@@ -1,5 +1,5 @@
-<section class="container d-flex justify-content-around pt-4">
-  <mat-card class="col-sm-4 d-inline-block align-top h-100">
+<section class="container d-flex justify-content-around pt-4" id ="contenedorTotal">
+  <mat-card class="col-sm-4 d-inline-block align-top h-100" id="contenedorP">
     <form [formGroup]="itemCategoryForm" #formDirective="ngForm">
       <mat-card-title>Item de Categoría</mat-card-title>
       <mat-card-content>
@@ -25,8 +25,11 @@
     </form>
   </mat-card>
 
-  <mat-card class="col-sm-7 d-inline-block">
-    <mat-table [dataSource]="listItemCategories" class="w100" cols="3">
+  <mat-card class="col-sm-7 d-inline-block" id= "tablaCont">
+      <mat-form-field class= "w100">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+        </mat-form-field>
+    <mat-table [dataSource]="data" class="w100" cols="3">
       <ng-container matColumnDef="nameItemCategory">
         <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
         <mat-cell *matCellDef="let itemCategory"> {{itemCategory.nameItemCategory}} </mat-cell>
@@ -57,5 +60,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
   </mat-card>
 </section>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Person } from 'src/app/models/person';
 import { ItemCategory } from 'src/app/models/itemCategory';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
@@ -6,6 +6,7 @@ import { PersoncontactsService } from 'src/app/services/personcontacts.service';
 import { PersonService } from 'src/app/services/person.service';
 import { ItemCategoryService } from 'src/app/services/itemCategory.service';
 import { Personcontacts } from 'src/app/models/personcontacts';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-personcontacts',
@@ -17,6 +18,7 @@ export class PersoncontactsComponent implements OnInit {
   listItemCategories: ItemCategory[] = [];
   listPersonsContact: Personcontacts [] = [];
   personsContactform: FormGroup;
+  data:MatTableDataSource<any>;
   constructor(
     private personsContactService: PersoncontactsService ,
     private personService: PersonService,
@@ -24,6 +26,7 @@ export class PersoncontactsComponent implements OnInit {
   ) { 
     this.personsContactform = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
    //Persons and Categories
    updateListPersons() {
     this.personService.getPersons().subscribe(person => {
@@ -39,11 +42,17 @@ export class PersoncontactsComponent implements OnInit {
   updateListPersonsContact() {
     this.personsContactService.getPersonsContact().subscribe(personsContact => {
       this.listPersonsContact = personsContact
+      this.data= new MatTableDataSource<Personcontacts>(this.listPersonsContact);
+      this.data.paginator=this.paginator;
     },
       error => {
         alert(JSON.stringify(error));
       }
     );
+  }
+  //Filter the table
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
   }
   //Delete
   deletePersonsContact(id: number) {

@@ -24,7 +24,7 @@ export class SubMenuService {
     }
 
     public updateSubMenu(subMenu: SubMenu) {
-      return this.httpClient.put(this.apiUrl+'subMenu/'+subMenu.subMenu_id+'/', subMenu,this.httpOptions);
+      return this.httpClient.put(this.apiUrl+'subMenu/'+subMenu.idSubMenu+'/', subMenu,this.httpOptions);
     }
 
     public deleteSubMenu(id: number) { 

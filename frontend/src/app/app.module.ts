@@ -25,6 +25,8 @@ import { SubmenuComponent } from './components/submenu/submenu.component';
 import { InfositeComponent } from './components/infosite/infosite.component';
 import { SubjectMatterComponent } from './components/subject-matter/subject-matter.component';
 import { PreRequirementsComponent } from './components/pre-requirements/pre-requirements.component';
+import { MatPaginatorIntl } from '@angular/material';
+import { MatPaginatorIntlEspa } from './mat-paginator-intl-espa';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +58,7 @@ import { PreRequirementsComponent } from './components/pre-requirements/pre-requ
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlEspa}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

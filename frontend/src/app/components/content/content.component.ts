@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Person } from 'src/app/models/person';
 import { ItemCategory } from 'src/app/models/itemCategory';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { UnirversityCareerService } from 'src/app/services/unirversity-career.service';
 import { Content } from 'src/app/models/content';
 import { ContentService } from 'src/app/services/content.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-content',
@@ -18,12 +19,14 @@ export class ContentComponent implements OnInit {
   listContent: Content[] = [];
   listItemUniversityCareer: ItemCategory[] = [];
   contentForm: FormGroup;
+  data:MatTableDataSource<any>;
   constructor(
     private universityCareerService: UnirversityCareerService,
     private contentService : ContentService
   ) {
     this.contentForm = this.createFormGroup();
    }
+   @ViewChild(MatPaginator) paginator: MatPaginator; 
        //Update UniversityCareer
        updateListItemUniversityCategories() {
         this.universityCareerService.getUniversityCareer().subscribe(itemCategories => {
@@ -46,12 +49,18 @@ export class ContentComponent implements OnInit {
       updateListContent() {
         this.contentService.getContent().subscribe(content => {
           this.listContent = content
+          this.data= new MatTableDataSource<Content>(this.listContent);
+          this.data.paginator=this.paginator;
         },
           error => {
             alert(JSON.stringify(error));
           }
         );
       }
+       //Filter the table
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
+  }
 //Delete
 deleteContent(id: number) {
   this.contentService.deleteContent(id).subscribe(persons => {

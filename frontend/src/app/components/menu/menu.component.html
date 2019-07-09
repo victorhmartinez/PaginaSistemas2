@@ -14,7 +14,7 @@
 
               <mat-form-field class="w100">
                   <mat-label>Categorias</mat-label>
-                  <mat-select formControlName="item_category_id">
+                  <mat-select formControlName="item_category_item_category_id">
                       <mat-option [value]="itemCategory.idItemCategory" *ngFor="let itemCategory of listItemCategories">
                           {{itemCategory.nameItemCategory}}
                       </mat-option>
@@ -29,8 +29,10 @@
       </form>
   </mat-card>
   <mat-card class="col-sm-7 d-inline-block">
-
-      <mat-table [dataSource]="listMenu" class="w100" cols="3">
+      <mat-form-field class= "w100">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+        </mat-form-field>
+      <mat-table [dataSource]="data" class="w100" cols="3">
 
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
@@ -44,7 +46,7 @@
 
         <ng-container matColumnDef="itemCategory">
           <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
-          <mat-cell *matCellDef="let menu">{{menu.item_category_id}} </mat-cell>
+          <mat-cell *matCellDef="let menu">{{menu.item_category_item_category_id}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="delete">
@@ -62,7 +64,9 @@
   
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
       </mat-table>
+      <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
     </mat-card>
 
 </section>

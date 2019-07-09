@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Person } from 'src/app/models/person';
 import { ItemCategory } from 'src/app/models/itemCategory';
 import { PersonDepartament } from 'src/app/models/person-departament';
@@ -7,6 +7,7 @@ import { ItemCategoryService } from 'src/app/services/itemCategory.service';
 import { PersonService } from 'src/app/services/person.service';
 import { PersonDepartamentService } from 'src/app/services/person-departament.service';
 import { UnirversityCareerService } from 'src/app/services/unirversity-career.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-person-departament',
@@ -19,6 +20,7 @@ export class PersonDepartamentComponent implements OnInit {
   listPersonsDepartament: PersonDepartament [] = [];
   listItemUniversityCareer: ItemCategory[] = [];
   personsDepartamentform: FormGroup;
+  data:MatTableDataSource<any>;
   constructor(
     private personsDepartamentService: PersonDepartamentService ,
     private personService: PersonService,
@@ -27,6 +29,7 @@ export class PersonDepartamentComponent implements OnInit {
   ) { 
     this.personsDepartamentform = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
     //Persons and Categories
     updateListPersons() {
       this.personService.getPersons().subscribe(person => {
@@ -49,6 +52,8 @@ export class PersonDepartamentComponent implements OnInit {
     updateListPersonsDepartament() {
       this.personsDepartamentService.getPersonsDepartament().subscribe(personsContact => {
         this.listPersonsDepartament = personsContact
+        this.data= new MatTableDataSource<PersonDepartament>(this.listPersonsDepartament);
+        this.data.paginator=this.paginator;
       },
         error => {
           alert(JSON.stringify(error));
@@ -63,6 +68,10 @@ deletePersonsDepartment(id: number) {
     error => {
       alert(JSON.stringify(error));
     })
+}
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
 }
 //Update
 updatePersonsDepartment(id: number) {

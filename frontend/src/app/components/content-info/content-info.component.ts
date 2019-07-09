@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Content } from 'src/app/models/content';
 import { FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ContentService } from 'src/app/services/content.service';
 import { ContentInfoService } from 'src/app/services/content-info.service';
 import { ContentInfo } from 'src/app/models/content-info';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-content-info',
@@ -14,12 +15,14 @@ export class ContentInfoComponent implements OnInit {
   listContent: Content[] = [];
   listContentInfo: ContentInfo[] = [];
   contentInfoForm: FormGroup;
+  data:MatTableDataSource<any>;
   constructor(
     private contentService: ContentService ,
     private contentInfoService: ContentInfoService,
   ) { 
     this.contentInfoForm = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
  //Update list content
  updateListContent() {
   this.contentService.getContent().subscribe(content => {
@@ -27,15 +30,21 @@ export class ContentInfoComponent implements OnInit {
   });
 
 }
-//all  content and content Info
+//all content Info
 updateListContentInfo() {
   this.contentInfoService.getContentInfo().subscribe(contenInfo => {
     this.listContentInfo = contenInfo
+    this.data= new MatTableDataSource<ContentInfo>(this.listContentInfo);
+      this.data.paginator=this.paginator;
   },
     error => {
       alert(JSON.stringify(error));
     }
   );
+}
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
 }
 //Delete
 deleteContentInfo(id: number) {

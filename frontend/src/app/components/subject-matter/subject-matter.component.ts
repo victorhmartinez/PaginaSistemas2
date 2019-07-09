@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubjectMatter } from 'src/app/models/subject-matter';
 import { ItemCategory } from 'src/app/models/itemCategory';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { SubjectMatterService } from 'src/app/services/subjectMatter.service';
 import { UnirversityCareerService } from 'src/app/services/unirversity-career.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-subject-matter',
@@ -14,6 +15,7 @@ export class SubjectMatterComponent implements OnInit {
   listsubjectMatter: SubjectMatter[] = [];
   listItemUniversityCareer: ItemCategory[] = [];
   subjectMatterForm: FormGroup;
+  data:MatTableDataSource<any>;
 
   constructor(
     private subjectMatterService: SubjectMatterService,
@@ -21,6 +23,7 @@ export class SubjectMatterComponent implements OnInit {
   ) { 
     this.subjectMatterForm = this.createFormGroup();
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
   //Update UniversityCareer
   updateListItemUniversityCategories() {
     this.universityCareerService.getUniversityCareer().subscribe(itemCategories => {
@@ -30,7 +33,9 @@ export class SubjectMatterComponent implements OnInit {
 //ALL
 updateListSubjectMatter(){
   this.subjectMatterService.getSubjectMatter().subscribe(subjectMatter => {
-    this.listsubjectMatter = subjectMatter
+    this.listsubjectMatter = subjectMatter;
+    this.data= new MatTableDataSource<SubjectMatter>(this.listsubjectMatter);
+      this.data.paginator=this.paginator;
   },
     error => {
       alert(JSON.stringify(error));
@@ -49,6 +54,10 @@ deleteSubjectMatter(id: number) {
 
 updateSubjectMatter(id: number) {
   alert(JSON.stringify(this.subjectMatterForm.valueChanges));
+}
+//Filter the table
+applyFilter(filterValue: string) {
+  this.data.filter = filterValue.trim().toLowerCase();
 }
   ngOnInit() {
     this.updateListItemUniversityCategories();

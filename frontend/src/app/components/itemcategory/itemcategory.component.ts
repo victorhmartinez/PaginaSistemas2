@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ItemCategoryService } from '../../services/itemCategory.service';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { ItemCategory } from '../../models/itemCategory';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
+
 
 @Component({
   selector: 'app-itemcategory',
@@ -16,6 +18,8 @@ export class ItemcategoryComponent implements OnInit {
   listItemCategories: ItemCategory[] = [];
   itemCategoryForm: FormGroup;
 
+  data:MatTableDataSource<any>;
+
   constructor(
     private itemCategoryService: ItemCategoryService,
     private categoryService: CategoryService,
@@ -23,6 +27,7 @@ export class ItemcategoryComponent implements OnInit {
     this.itemCategoryForm = this.createFormGroup();
 
   }
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   updateListCategories() {
     this.categoryService.getCategories().subscribe(categories => {
@@ -33,13 +38,18 @@ export class ItemcategoryComponent implements OnInit {
   updateListItemCategories() {
     this.itemCategoryService.getItemCategories().subscribe(itemCategories => {
       this.listItemCategories = itemCategories
+      this.data= new MatTableDataSource <ItemCategory>(this.listItemCategories);
+      this.data.paginator= this.paginator;
     },
       error => {
         alert(JSON.stringify(error));
       }
     );
   }
-
+  //Filter the table
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
+  }
   deleteItemCategory(id: number) {
     this.itemCategoryService.deleteItemCategory(id).subscribe(categories => {
       this.updateListItemCategories();

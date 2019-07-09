@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubjectMatter } from 'src/app/models/subject-matter';
 import { PreRequirements } from 'src/app/models/pre-requirements';
 import { PreRequirementsService } from 'src/app/services/pre-requirements.service';
 import { SubjectMatterService } from 'src/app/services/subjectMatter.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-pre-requirements',
@@ -15,12 +16,14 @@ listSubjectMatter : SubjectMatter[] = [];
 listSubjectMatterRequirements: SubjectMatter [] = [];
 listPreRequirements : PreRequirements [] = [];
 preRequirementsForm: FormGroup
+data:MatTableDataSource<any>;
   constructor(
     private SubjectMatterService: SubjectMatterService,
   private PreRequirementsService : PreRequirementsService
   ) {
     this.preRequirementsForm = this.createFormGroup();
    }
+   @ViewChild(MatPaginator) paginator: MatPaginator; 
     //SubjectMatter
     updateListSubjectMatter() {
       this.SubjectMatterService.getSubjectMatter().subscribe(subjectMatter => {
@@ -36,13 +39,19 @@ preRequirementsForm: FormGroup
     //all preRequirements
     updateListPreRequirements() {
       this.PreRequirementsService.getpreRequirements().subscribe(preRequirement => {
-        this.listPreRequirements = preRequirement
+        this.listPreRequirements = preRequirement;
+        this.data= new MatTableDataSource<PreRequirements>(this.listPreRequirements);
+      this.data.paginator=this.paginator;
       },
         error => {
           alert(JSON.stringify(error));
         }
       );
     }
+    //Filter the table
+  applyFilter(filterValue: string) {
+    this.data.filter = filterValue.trim().toLowerCase();
+  }
   //Delete
   deletepreRequirements(id: number) {
     this.PreRequirementsService.deletepreRequirements(id).subscribe(preRequirement => {
