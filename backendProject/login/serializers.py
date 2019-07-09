@@ -1,7 +1,7 @@
 from login.models import *
 from rest_framework import routers, serializers, viewsets
-from rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth.models import User
+from rest_auth.registration.serializers import RegisterSerializer
 from allauth.account import app_settings as allauth_settings
 #from allauth.utils import email_address_exists
 from allauth.account.adapter import get_adapter
@@ -23,11 +23,11 @@ class RegistrationSerializer (RegisterSerializer):
         self.cleaned_data = self.get_cleaned_data()
         adapter.save_user(request, user, self)
         user.save()
-        return user 
-
+        return user
+        
 class UsersSerializer (serializers.ModelSerializer):
 
-    person_id = serializers.PrimaryKeyRelatedField(queryset=Persons.objects.all())
+    person = serializers.PrimaryKeyRelatedField(queryset=Persons.objects.all())
 
     class Meta:
         model = Users
