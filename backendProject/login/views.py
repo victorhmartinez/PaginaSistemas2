@@ -12,8 +12,8 @@ from . import models
 from . import serializers
 
 from rest_framework.permissions import IsAuthenticated
-from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Site, Info_site, Content, Content_media, Content_info, Menu
-from login.serializers import CategorySerializer, ItemCategorySerializer, PersonsSerializer, Persons_depaSerializer, Persons_roleSerializer, Persons_mediaSerializer, Persons_ContactSerializer, Subject_matter_Serializer, Pre_requirements_Serializer, Site_Serializer, Info_site_Serializer, Content_Serializer, Content_media_Serializer, Content_info_Serializer, Menu_Serializer
+from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Info_site, Content, Content_media, Content_info, Menu
+from login.serializers import CategorySerializer, ItemCategorySerializer, PersonsSerializer, Persons_depaSerializer, Persons_roleSerializer, Persons_mediaSerializer, Persons_ContactSerializer, Subject_matter_Serializer, Pre_requirements_Serializer, Info_site_Serializer, Content_Serializer, Content_media_Serializer, Content_info_Serializer, Menu_Serializer
 
 @permission_classes((AllowAny,))
 class ItemCategoryRolList (generics.ListAPIView):
@@ -28,7 +28,7 @@ class ItemCategoryRolList (generics.ListAPIView):
 @permission_classes((AllowAny,))
 class ItemCategoryTitulacionList (generics.ListAPIView):
     try:
-        categoryTitulacion = models.Category.objects.get(nameCategory="titulacion")
+        categoryTitulacion = models.Category.objects.get(nameCategory="titulación")
         queryset = models.ItemCategory.objects.filter(category=categoryTitulacion)
         serializer_class = ItemCategorySerializer
     except ObjectDoesNotExist:
@@ -64,6 +64,27 @@ class ItemCategoryTypeEventList (generics.ListAPIView):
     except ObjectDoesNotExist:
         queryset = models.ItemCategory.objects.none()
         serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTypeContactList (generics.ListAPIView):
+    try:
+        tipoContacto = models.Category.objects.get(nameCategory="tipo contacto")
+        queryset = models.ItemCategory.objects.filter(category=tipoContacto)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryDepartaments (generics.ListAPIView):
+    try:
+        departaments = models.Category.objects.get(nameCategory="departamentos")
+        queryset = models.ItemCategory.objects.filter(category=departaments)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
 @permission_classes((AllowAny,))
 class CategoryList (generics.ListCreateAPIView):
     queryset = models.Category.objects.all()
@@ -154,16 +175,6 @@ class Pre_requirementsDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Pre_requirements.objects.all()
     serializer_class = Pre_requirements_Serializer
 
-@permission_classes((AllowAny,))
-class SiteList(generics.ListCreateAPIView):
-    queryset = models.Site.objects.all()
-    serializer_class = Site_Serializer
-
-@permission_classes((AllowAny,))
-class SiteDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Site.objects.all()
-    serializer_class = Site_Serializer
-
 @permission_classes ((AllowAny,))
 class Info_siteList(generics.ListCreateAPIView):
     queryset = models.Info_site.objects.all()
@@ -229,10 +240,10 @@ def login(request):
     return Response({'token': token.key}, status=HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"])
-@permission_classes((AllowAny,))
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
 def usuario(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         users = models.Users.objects.all()
-        serializer = serializers.UsersSerializer(users, many=True)
+        serializer = serializers.RegistrationSerializer(users, many=True)
         return Response(serializer.data)

@@ -4,21 +4,23 @@ from rest_framework.authtoken import views as viewsToken
 #from rest_framework.urlpatterns import format_sufifix_patterns
 
 urlpatterns=[
-    url(r'login/', views.login, name="login" ),
-    #url(r'^login$', views.login),
+    #url(r'login/', views.login, name="login" ),
+    url(r'^login$', views.login),
     url(r'^usuario$', views.usuario),
     #url(r'^api-token-auth/', viewsToken.obtain_auth_token, name="api-token-auth" ),    
     url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryDetail.as_view()),
     url(r'^category/$',views.CategoryList.as_view()),
-    
-    url(r'^itemcategoryRol/$',views.ItemCategoryRolList.as_view()),
-    url(r'^itemcategoryTitulacion/$',views.ItemCategoryTitulacionList.as_view()),
-    url(r'^itemcategoryAcademicPeriod/$',views.ItemCategoryAcademicPeriodList.as_view()),
-    url(r'^itemcategoryTyeEvent/$',views.ItemCategoryTypeEventList.as_view()),
-    url(r'^itemcategoryTypeContent/$',views.ItemCategoryTypeContentList.as_view()),
 
     url(r'^itemcategory/(?P<pk>[0-9]+)/$', views.ItemCategoryDetail.as_view()),
     url(r'^itemcategory/$',views.ItemCategoryList.as_view()),
+
+    url(r'^itemcategoryRol/$',views.ItemCategoryRolList.as_view()),
+    url(r'^itemcategoryTitulacion/$',views.ItemCategoryTitulacionList.as_view()),
+    url(r'^itemcategoryAcademicPeriod/$',views.ItemCategoryAcademicPeriodList.as_view()),
+    url(r'^itemcategoryTypeContent/$',views.ItemCategoryTypeContentList.as_view()),
+    url(r'^itemcategoryTyeEvent/$',views.ItemCategoryTypeEventList.as_view()),
+    url(r'^itemcategoryTypeContact/$',views.ItemCategoryTypeContactList.as_view()),
+    url(r'^itemcategoryDepartaments/$',views.ItemCategoryDepartaments.as_view()),
 
     url(r'^persons/$',views.PersonsList.as_view()),
     url(r'^persons/(?P<pk>[0-9]+)/$', views.PersonsDetail.as_view()),
@@ -34,8 +36,6 @@ urlpatterns=[
     url(r'^subjectMatter/(?P<pk>[0-9]+)/$', views.Subject_matterDetail.as_view()),
     url(r'^preRequirements/$',views.Pre_requirementsList.as_view()),
     url(r'^preRequirements/(?P<pk>[0-9]+)/$', views.Pre_requirementsDetail.as_view()),
-    url(r'^site/$',views.SiteList.as_view()),
-    url(r'^site/(?P<pk>[0-9]+)/$', views.SiteDetail.as_view()),
     url(r'^infoSite/$',views.Info_siteList.as_view()),
     url(r'^infoSite/(?P<pk>[0-9]+)/$', views.Info_siteDetail.as_view()),
     url(r'^content/$',views.ContentList.as_view()),
@@ -45,5 +45,5 @@ urlpatterns=[
     url(r'^contentInfo/$',views.Content_infoList.as_view()),
     url(r'^contentInfo/(?P<pk>[0-9]+)/$', views.Content_infoDetail.as_view()),
     url(r'^menu/$',views.MenuList.as_view()),
-    url(r'^menu/(?P<pk>[0-9]+)/$', views.MenuDetail.as_view()),
+    url(r'^menu/(?P<pk>[0-9]+)/$', views.MenuDetail.as_view())
 ]

@@ -1,7 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
-from django.contrib.auth.models import PermissionsMixin, BaseUserManager
-from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 
 class Category (models.Model):
@@ -17,7 +16,7 @@ class ItemCategory (models.Model):
     nameItemCategory = models.CharField(max_length= 255)
     active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete = models.CASCADE)
-
+    
     def __str__(self):
         return self.nameItemCategory
 
@@ -27,6 +26,7 @@ class Persons(models.Model):
     second_name = models.CharField(max_length=255)
     first_last_name = models.CharField(max_length=255)
     second_last_name = models.CharField(max_length=255)
+
     def __str__(self):
         return self.first_name +" "+ self.first_last_name
 
@@ -49,6 +49,7 @@ class Persons_media (models.Model):
 
 class Persons_Contacts (models.Model):
     contact_info_id = models.AutoField(primary_key=True)
+    contact = models.CharField(max_length=255, null=False)
     item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
     persons_id = models.ForeignKey(Persons, on_delete = models.CASCADE)
 
@@ -65,20 +66,11 @@ class Pre_requirements (models.Model):
     subject_matter_id_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_id_id')
     subject_matter_requeriment_id = models.ForeignKey('Subject_matter', on_delete=models.CASCADE, related_name='subject_matter_requeriment_id')
 
-class Site (models.Model):
-    site_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=45, null=False)
-    icon = models.CharField(max_length=45, null=False)
-    favicon = models.CharField(max_length=45, null=False)
-
-    def __str__(self):
-        return self.title
-
 class Info_site (models.Model):
     info_site_id = models.AutoField(primary_key=True)
-    site_site_id = models.ForeignKey(Site, on_delete = models.CASCADE)
     description = models.CharField(max_length=45, null=False)
     type_info = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
+    info_site_universitycareer = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='info_site_universitycareer')
 
 class Content (models.Model):
     content_id = models.AutoField(primary_key=True)
@@ -148,26 +140,27 @@ class Users(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=15, unique=True, null=False)
     email = models.EmailField(max_length=100, unique=True, null=False)
     is_admin = models.BooleanField(default=True)
-    is_superuser = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     update_time = models.DateTimeField(default=timezone.now)
-    last_login = models.DateTimeField(blank=True, null=True, verbose_name='last login')
-    is_staff = models.BooleanField(default=False, verbose_name='is staff')
     create_time = models.DateTimeField(default=timezone.now)
     person_id = models.OneToOneField(Persons, on_delete = models.CASCADE)
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email','person_id']
 
     objects = UserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email','person_id']
 
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-    
+
     def has_perm(self, perm, obj=None):
         return True
         
     def has_module_perms(self, app_label):
         return True
 
+    def is_staff(self):
+        return self.is_staff
