@@ -99,7 +99,7 @@ class ItemCategoryTypeInfo (generics.ListAPIView):
 class InfoSiteQuienesSomos (generics.ListAPIView):
     try:
         quienesSomos = models.ItemCategory.objects.get(nameItemCategory="quienes somos")
-        queryset = models.Info_site.objects.filter(info_site_universitycareer=quienesSomos)
+        queryset = models.Info_site.objects.filter(type_info=quienesSomos)
         serializer_class = Info_site_Serializer
     except ObjectDoesNotExist:
         queryset = models.Info_site.objects.none()
