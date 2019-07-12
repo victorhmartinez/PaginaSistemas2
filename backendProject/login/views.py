@@ -86,6 +86,26 @@ class ItemCategoryDepartaments (generics.ListAPIView):
         serializer_class = ItemCategorySerializer
 
 @permission_classes((AllowAny,))
+class ItemCategoryTypeInfo (generics.ListAPIView):
+    try:
+        tipoInfo = models.Category.objects.get(nameCategory="tipo info")
+        queryset = models.ItemCategory.objects.filter(category=tipoInfo)
+        serializer_class = ItemCategorySerializer
+    except ObjectDoesNotExist:
+        queryset = models.ItemCategory.objects.none()
+        serializer_class = ItemCategorySerializer
+
+@permission_classes((AllowAny,))
+class InfoSiteQuienesSomos (generics.ListAPIView):
+    try:
+        quienesSomos = models.ItemCategory.objects.get(nameItemCategory="quienes somos")
+        queryset = models.Info_site.objects.filter(info_site_universitycareer=quienesSomos)
+        serializer_class = Info_site_Serializer
+    except ObjectDoesNotExist:
+        queryset = models.Info_site.objects.none()
+        serializer_class = Info_site_Serializer
+
+@permission_classes((AllowAny,))
 class CategoryList (generics.ListCreateAPIView):
     queryset = models.Category.objects.all()
     serializer_class = CategorySerializer
@@ -241,7 +261,7 @@ def login(request):
 
 @csrf_exempt
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))
+@permission_classes((AllowAny,))
 def usuario(request):
     if request.method == 'GET':
         users = models.Users.objects.all()
