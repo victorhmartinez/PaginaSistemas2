@@ -14,7 +14,6 @@ from . import serializers
 from rest_framework.permissions import IsAuthenticated
 from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Info_site, Content, Content_media, Content_info, Menu
 from login.serializers import CategorySerializer, ItemCategorySerializer, PersonsSerializer, Persons_depaSerializer, Persons_roleSerializer, Persons_mediaSerializer, Persons_ContactSerializer, Subject_matter_Serializer, Pre_requirements_Serializer, Info_site_Serializer, Content_Serializer, Content_media_Serializer, Content_info_Serializer, Menu_Serializer
-
 @permission_classes((AllowAny,))
 class ItemCategoryRolList (generics.ListAPIView):
     try:
@@ -78,7 +77,7 @@ class ItemCategoryTypeContactList (generics.ListAPIView):
 @permission_classes((AllowAny,))
 class ItemCategoryDepartaments (generics.ListAPIView):
     try:
-        departaments = models.Category.objects.get(nameCategory="departamentos")
+        departaments = models.Category.objects.get(nameCategory="secciones")
         queryset = models.ItemCategory.objects.filter(category=departaments)
         serializer_class = ItemCategorySerializer
     except ObjectDoesNotExist:
@@ -100,6 +99,16 @@ class InfoSiteQuienesSomos (generics.ListAPIView):
     try:
         quienesSomos = models.ItemCategory.objects.get(nameItemCategory="quienes somos")
         queryset = models.Info_site.objects.filter(type_info=quienesSomos)
+        serializer_class = Info_site_Serializer
+    except ObjectDoesNotExist:
+        queryset = models.Info_site.objects.none()
+        serializer_class = Info_site_Serializer
+
+@permission_classes((AllowAny,))
+class InfoSiteDepartamentos (generics.ListAPIView):
+    try:
+        departamentsInfoSite = models.ItemCategory.objects.get(nameItemCategory="secciones")
+        queryset = models.Info_site.objects.filter(type_info=departamentsInfoSite)
         serializer_class = Info_site_Serializer
     except ObjectDoesNotExist:
         queryset = models.Info_site.objects.none()

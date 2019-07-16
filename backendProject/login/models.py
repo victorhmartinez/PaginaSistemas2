@@ -164,3 +164,6 @@ class Users(AbstractBaseUser, PermissionsMixin):
 
     def is_staff(self):
         return self.is_staff
+
+    def __str__(self):
+        return self.email

@@ -17,9 +17,10 @@ urlpatterns=[
     url(r'^itemcategoryTypeContent/$',views.ItemCategoryTypeContentList.as_view()),
     url(r'^itemcategoryTyeEvent/$',views.ItemCategoryTypeEventList.as_view()),
     url(r'^itemcategoryTypeContact/$',views.ItemCategoryTypeContactList.as_view()),
-    url(r'^itemcategoryDepartaments/$',views.ItemCategoryDepartaments.as_view()),
+    url(r'^itemcategorySecciones/$',views.ItemCategoryDepartaments.as_view()),
     url(r'^itemcategoryTypeInfo/$',views.ItemCategoryTypeInfo.as_view()),
     url(r'^infoSiteQuienesSomos/$',views.InfoSiteQuienesSomos.as_view()),
+    url(r'^infoSiteSecciones/$',views.InfoSiteDepartamentos.as_view()),
 
     url(r'^itemcategory/(?P<pk>[0-9]+)/$', views.ItemCategoryDetail.as_view()),
     url(r'^itemcategory/$',views.ItemCategoryList.as_view()),

@@ -11,10 +11,25 @@ from allauth.account.adapter import get_adapter
 class RegistrationSerializer (RegisterSerializer):
 
     person_id = serializers.PrimaryKeyRelatedField(queryset=models.Persons.objects.all())
+
+    def _create_user(self, email, person_id, password, **extra_fields):
+        """
+        Creates and saves a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('The given email must be set')
+        person_id = Persons.objects.get(person_id=person_id)
+        email = self.normalize_email(email)
+        user = self.model(username = username, email = email, person_id = person_id)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
     def get_cleaned_data(self):
         return {
             'person_id': self.validated_data.get('person_id', ''),
             'email': self.validated_data.get('email', ''),
+            'password': self.validated_data.get('password', ''),
         }
 
     def save(self, request):
@@ -23,9 +38,11 @@ class RegistrationSerializer (RegisterSerializer):
         user.person_id = Persons(person_id=request.data['person_id'])
         self.cleaned_data = self.get_cleaned_data()
         adapter.save_user(request, user, self)
+        user.set_password(request.data['password1'])
         user.save()
-        return user 
+        return user
 
+    
 class CategorySerializer (serializers.ModelSerializer):
 
     class Meta:
