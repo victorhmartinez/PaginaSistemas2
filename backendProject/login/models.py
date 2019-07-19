@@ -102,6 +102,7 @@ class Content_info (models.Model):
 class Menu (models.Model):
     menu_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False)
+    url = models.CharField(max_length=500, null=False)
     orden = models.IntegerField(null=False)
     item_category_item_category_id = models.ForeignKey(ItemCategory, on_delete = models.CASCADE)
 

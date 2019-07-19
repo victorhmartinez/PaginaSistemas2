@@ -128,7 +128,7 @@ class InfoSiteQuienesSomos (generics.ListAPIView):
 @permission_classes((AllowAny,))
 class InfoSiteDepartamentos (generics.ListAPIView):
     try:
-        departamentsInfoSite = models.Category.objects.get(nameCategory="secciones")
+        departamentsInfoSite = models.ItemCategory.objects.get(nameItemCategory="secciones")
         queryset = models.Info_site.objects.filter(type_info=departamentsInfoSite)
         serializer_class = Info_site_Serializer
     except ObjectDoesNotExist:
