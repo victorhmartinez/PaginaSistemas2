@@ -3,6 +3,7 @@ from login import views
 from rest_framework.authtoken import views as viewsToken
 #from rest_framework.urlpatterns import format_sufifix_patterns
 
+
 urlpatterns=[
     #url(r'login/', views.login, name="login" ),
     url(r'^login$', views.login),
@@ -19,6 +20,7 @@ urlpatterns=[
     url(r'^itemcategoryTypeContact/$',views.ItemCategoryTypeContactList.as_view()),
     url(r'^itemcategorySecciones/$',views.ItemCategoryDepartaments.as_view()),
     url(r'^itemcategoryTypeInfo/$',views.ItemCategoryTypeInfo.as_view()),
+    url(r'^itemcategoryMensajes/$',views.ItemCategoryMessages.as_view()),
     url(r'^infoSiteQuienesSomos/$',views.InfoSiteQuienesSomos.as_view()),
     url(r'^infoSiteSecciones/$',views.InfoSiteDepartamentos.as_view()),
 
