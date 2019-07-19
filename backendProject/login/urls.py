@@ -21,6 +21,7 @@ urlpatterns=[
     url(r'^itemcategorySecciones/$',views.ItemCategoryDepartaments.as_view()),
     url(r'^itemcategoryTypeInfo/$',views.ItemCategoryTypeInfo.as_view()),
     url(r'^itemcategoryMensajes/$',views.ItemCategoryMessages.as_view()),
+    url(r'^itemcategoryTestimonios/$',views.ItemCategoryTestimonios.as_view()),
     url(r'^infoSiteQuienesSomos/$',views.InfoSiteQuienesSomos.as_view()),
     url(r'^infoSiteSecciones/$',views.InfoSiteDepartamentos.as_view()),
 

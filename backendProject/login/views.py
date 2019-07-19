@@ -98,12 +98,22 @@ class ItemCategoryTypeInfo (generics.ListAPIView):
 @permission_classes((AllowAny,))
 class ItemCategoryMessages (generics.ListAPIView):
     try:
-        messages = models.Category.objects.get(nameCategory="Mensaje")
-        queryset = models.ItemCategory.objects.filter(category=messages)
-        serializer_class = ItemCategorySerializer
+        message = models.ItemCategory.objects.get(nameItemCategory="mensajes")
+        queryset = models.Content.objects.filter(type_event=message)
+        serializer_class = Content_Serializer
     except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+        queryset = models.Content.objects.none()
+        serializer_class = Content_Serializer
+
+@permission_classes((AllowAny,))
+class ItemCategoryTestimonios (generics.ListAPIView):
+    try:
+        testimony = models.ItemCategory.objects.get(nameItemCategory="testimonios")
+        queryset = models.Content.objects.filter(type_event=testimony)
+        serializer_class = Content_Serializer
+    except ObjectDoesNotExist:
+        queryset = models.Content.objects.none()
+        serializer_class = Content_Serializer
 
 @permission_classes((AllowAny,))
 class InfoSiteQuienesSomos (generics.ListAPIView):
@@ -118,7 +128,7 @@ class InfoSiteQuienesSomos (generics.ListAPIView):
 @permission_classes((AllowAny,))
 class InfoSiteDepartamentos (generics.ListAPIView):
     try:
-        departamentsInfoSite = models.ItemCategory.objects.get(nameItemCategory="secciones")
+        departamentsInfoSite = models.Category.objects.get(nameCategory="secciones")
         queryset = models.Info_site.objects.filter(type_info=departamentsInfoSite)
         serializer_class = Info_site_Serializer
     except ObjectDoesNotExist:
@@ -257,7 +267,7 @@ class Content_infoDetail(generics.RetrieveUpdateDestroyAPIView):
 
 @permission_classes ((AllowAny,))
 class MenuList(generics.ListCreateAPIView):
-    queryset = models.Menu.objects.all()
+    queryset = models.Menu.objects.all().order_by('orden')
     serializer_class = Menu_Serializer
 
 @permission_classes ((AllowAny,))
