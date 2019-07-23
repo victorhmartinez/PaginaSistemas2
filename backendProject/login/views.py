@@ -76,7 +76,7 @@ class ItemCategoryTypeContactList (generics.ListAPIView):
         serializer_class = ItemCategorySerializer
 
 @permission_classes((AllowAny,))
-class ItemCategoryDepartaments (generics.ListAPIView):
+class ItemCategorySecciones (generics.ListAPIView):
     try:
         departaments = models.Category.objects.get(nameCategory="secciones")
         queryset = models.ItemCategory.objects.filter(category=departaments)
@@ -96,24 +96,25 @@ class ItemCategoryTypeInfo (generics.ListAPIView):
         serializer_class = ItemCategorySerializer
 
 @permission_classes((AllowAny,))
-class ItemCategoryMessages (generics.ListAPIView):
+class ContentMessages (generics.ListAPIView):
     try:
-        message = models.ItemCategory.objects.get(nameItemCategory="mensajes")
-        queryset = models.Content.objects.filter(type_event=message)
-        serializer_class = Content_Serializer
+        message = models.Content.objects.get(title="mensajes")
+        queryset = models.Content_media.objects.filter(content_content_id=message)
+        serializer_class = Content_media_Serializer
     except ObjectDoesNotExist:
-        queryset = models.Content.objects.none()
-        serializer_class = Content_Serializer
+        queryset = models.Content_media.objects.none()
+        serializer_class = Content_media_Serializer
 
 @permission_classes((AllowAny,))
-class ItemCategoryTestimonios (generics.ListAPIView):
+class ContentTestimonios (generics.ListAPIView):
     try:
-        testimony = models.ItemCategory.objects.get(nameItemCategory="testimonios")
-        queryset = models.Content.objects.filter(type_event=testimony)
-        serializer_class = Content_Serializer
+        testimony = models.Content.objects.get(title="testimonios")
+        queryset = models.Content_media.objects.filter(content_content_id=testimony)
+        serializer_class = Content_media_Serializer
+
     except ObjectDoesNotExist:
-        queryset = models.Content.objects.none()
-        serializer_class = Content_Serializer
+        queryset = models.Content_media.objects.none()
+        serializer_class = Content_media_Serializer
 
 @permission_classes((AllowAny,))
 class InfoSiteQuienesSomos (generics.ListAPIView):
@@ -124,17 +125,18 @@ class InfoSiteQuienesSomos (generics.ListAPIView):
     except ObjectDoesNotExist:
         queryset = models.Info_site.objects.none()
         serializer_class = Info_site_Serializer
-
+'''
 @permission_classes((AllowAny,))
-class InfoSiteDepartamentos (generics.ListAPIView):
+class InfoSiteSecciones (generics.ListAPIView):
     try:
+
         departamentsInfoSite = models.ItemCategory.objects.get(nameItemCategory="secciones")
         queryset = models.Info_site.objects.filter(type_info=departamentsInfoSite)
         serializer_class = Info_site_Serializer
     except ObjectDoesNotExist:
         queryset = models.Info_site.objects.none()
         serializer_class = Info_site_Serializer
-
+'''
 @permission_classes((AllowAny,))
 class CategoryList (generics.ListCreateAPIView):
     queryset = models.Category.objects.all()
