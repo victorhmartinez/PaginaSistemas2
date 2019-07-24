@@ -123,6 +123,7 @@ class Info_site_Serializer (serializers.ModelSerializer):
 
     class Meta:
         model = models.Info_site
+        depth = 2
         fields = "__all__"
 
 class Content_Serializer (serializers.ModelSerializer):

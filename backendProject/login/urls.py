@@ -5,10 +5,8 @@ from rest_framework.authtoken import views as viewsToken
 
 
 urlpatterns=[
-    #url(r'login/', views.login, name="login" ),
-    url(r'^login$', views.login),
-    url(r'^usuario$', views.usuario),
-    #url(r'^api-token-auth/', .viewsTokenobtain_auth_token, name="api-token-auth" ),    
+    url(r'login/', views.login, name="login" ),
+    url(r'^usuario/$', views.usuario),
     url(r'^category/(?P<pk>[0-9]+)/$', views.CategoryDetail.as_view()),
     url(r'^category/$',views.CategoryList.as_view()),
 
@@ -23,7 +21,7 @@ urlpatterns=[
     url(r'^contentMensajes/$',views.ContentMessages.as_view()),
     url(r'^contentTestimonios/$',views.ContentTestimonios.as_view()),
     url(r'^infoSiteQuienesSomos/$',views.InfoSiteQuienesSomos.as_view()),
-#    url(r'^infoSiteSecciones/$',views.InfoSiteSecciones.as_view()),
+    url(r'^infoSiteSecciones/$',views.InfoSiteSecciones.as_view()),
 
     url(r'^itemcategory/(?P<pk>[0-9]+)/$', views.ItemCategoryDetail.as_view()),
     url(r'^itemcategory/$',views.ItemCategoryList.as_view()),

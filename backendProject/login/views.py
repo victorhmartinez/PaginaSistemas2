@@ -125,7 +125,7 @@ class InfoSiteQuienesSomos (generics.ListAPIView):
     except ObjectDoesNotExist:
         queryset = models.Info_site.objects.none()
         serializer_class = Info_site_Serializer
-'''
+
 @permission_classes((AllowAny,))
 class InfoSiteSecciones (generics.ListAPIView):
     try:
@@ -136,7 +136,7 @@ class InfoSiteSecciones (generics.ListAPIView):
     except ObjectDoesNotExist:
         queryset = models.Info_site.objects.none()
         serializer_class = Info_site_Serializer
-'''
+
 @permission_classes((AllowAny,))
 class CategoryList (generics.ListCreateAPIView):
     queryset = models.Category.objects.all()
