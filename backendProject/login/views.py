@@ -2,13 +2,13 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from .models import *
 from django.contrib.auth.models import User as Users
 from .serializers import *
 from .filters import *
-from rest_framework import generics
 import mimetypes
 from wsgiref.util import FileWrapper
 from django.http import StreamingHttpResponse
@@ -18,7 +18,6 @@ class Category(viewsets.ModelViewSet):
     serializer_class   = CategorySerializer
     filter_fields      = ('idCategory','nameCategory','active')
     filter_class       = CategoryFilter
-    filter_backends    = (filters.DjangoFilterBackend,)
     filterset_fields   = ('nameCategory')
 
     def get_object(self):
@@ -30,10 +29,11 @@ class Category(viewsets.ModelViewSet):
             return obj
 
 class ItemCategory(viewsets.ModelViewSet):
-    queryset           = ItemCategory.objects.all().order_by('nameItemCategory')
+    queryset           = ItemCategory.objects.all()
     serializer_class   = ItemCategorySerializer
     filter_fields      = ('idItemCategory','nameItemCategory','active','category')
-
+    filter_class       = ItemCategoryFilter
+    filterset_fields   = ('nameItemCategory','category')    
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -130,6 +130,8 @@ class Info_site(viewsets.ModelViewSet):
     queryset           = Info_site.objects.all()
     serializer_class   = Info_site_Serializer
     filter_fields      = ('info_site_id','description','type_info','info_site_universitycareer')
+    filter_class       = InfoSiteFilter
+    filterset_fields   = ('type_info','info_site_universitycareer')    
     def get_object(self):
             queryset = self.get_queryset()
             obj      = get_object_or_404(
@@ -175,7 +177,7 @@ class Content_info(viewsets.ModelViewSet):
             return obj
 
 class Menu(viewsets.ModelViewSet):
-    queryset           = Menu.objects.all()
+    queryset           = Menu.objects.all().order_by('orden')
     serializer_class   = Menu_Serializer
     filter_fields      = ('menu_id','name','url','orden','item_category_item_category_id')
     def get_object(self):

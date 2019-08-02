@@ -6,3 +6,13 @@ class CategoryFilter(filters.FilterSet):
         model = Category
         fields = ['nameCategory']
 
+class ItemCategoryFilter(filters.FilterSet):
+    class Meta:
+        model = ItemCategory
+        fields = ['nameItemCategory','category']
+
+class InfoSiteFilter(filters.FilterSet):
+    class Meta:
+        model = Info_site
+        fields = ['type_info','info_site_universitycareer']
+
