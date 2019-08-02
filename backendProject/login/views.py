@@ -1,281 +1,190 @@
-from django.contrib.auth import authenticate
-from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from rest_framework.status import (HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK)
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from rest_framework import generics, viewsets, status
-from . import models
-from . import serializers
-
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, get_object_or_404
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from login.models import Category, ItemCategory, Persons, Persons_departaments, Persons_role, Persons_media, Persons_Contacts, Subject_matter, Pre_requirements, Info_site, Content, Content_media, Content_info, Menu
-from login.serializers import CategorySerializer, ItemCategorySerializer, PersonsSerializer, Persons_depaSerializer, Persons_roleSerializer, Persons_mediaSerializer, Persons_ContactSerializer, Subject_matter_Serializer, Pre_requirements_Serializer, Info_site_Serializer, Content_Serializer, Content_media_Serializer, Content_info_Serializer, Menu_Serializer
+from .models import *
+from django.contrib.auth.models import User as Users
+from .serializers import *
+from .filters import *
+from rest_framework import generics
+import mimetypes
+from wsgiref.util import FileWrapper
+from django.http import StreamingHttpResponse
 
-@permission_classes((AllowAny,))
-class ItemCategoryRolList (generics.ListAPIView):
-    try:
-        categoryRol = models.Category.objects.get(nameCategory="rol usuario")
-        queryset = models.ItemCategory.objects.filter(category=categoryRol)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+class Category(viewsets.ModelViewSet):
+    queryset           = Category.objects.all()
+    serializer_class   = CategorySerializer
+    filter_fields      = ('idCategory','nameCategory','active')
+    filter_class       = CategoryFilter
+    filter_backends    = (filters.DjangoFilterBackend,)
+    filterset_fields   = ('nameCategory')
 
-@permission_classes((AllowAny,))
-class ItemCategoryTitulacionList (generics.ListAPIView):
-    try:
-        categoryTitulacion = models.Category.objects.get(nameCategory="titulación")
-        queryset = models.ItemCategory.objects.filter(category=categoryTitulacion)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ItemCategoryAcademicPeriodList (generics.ListAPIView):
-    try:
-        categoryAcademicPeriod = models.Category.objects.get(nameCategory="periodo academico")
-        queryset = models.ItemCategory.objects.filter(category=categoryAcademicPeriod)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+class ItemCategory(viewsets.ModelViewSet):
+    queryset           = ItemCategory.objects.all().order_by('nameItemCategory')
+    serializer_class   = ItemCategorySerializer
+    filter_fields      = ('idItemCategory','nameItemCategory','active','category')
 
-@permission_classes((AllowAny,))
-class ItemCategoryTypeContentList (generics.ListAPIView):
-    try:
-        categoryTypeContent = models.Category.objects.get(nameCategory="tipo contenido")
-        queryset = models.ItemCategory.objects.filter(category=categoryTypeContent)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ItemCategoryTypeEventList (generics.ListAPIView):
-    try:
-        categoryTypeEvent = models.Category.objects.get(nameCategory="tipo evento")
-        queryset = models.ItemCategory.objects.filter(category=categoryTypeEvent)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+class Persons(viewsets.ModelViewSet):
+    queryset           = Persons.objects.all()
+    serializer_class   = PersonsSerializer
+    filter_fields      = ('person_id','first_name','second_name','first_last_name','second_last_name')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ItemCategoryTypeContactList (generics.ListAPIView):
-    try:
-        tipoContacto = models.Category.objects.get(nameCategory="tipo contacto")
-        queryset = models.ItemCategory.objects.filter(category=tipoContacto)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+class Persons_departaments(viewsets.ModelViewSet):
+    queryset           = Persons_departaments.objects.all()
+    serializer_class   = Persons_depaSerializer
+    filter_fields      = ('persons_departaments_id','persons_id','item_category_id','first_last_name','universitycareer')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ItemCategorySecciones (generics.ListAPIView):
-    try:
-        departaments = models.Category.objects.get(nameCategory="secciones")
-        queryset = models.ItemCategory.objects.filter(category=departaments)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+class Persons_role(viewsets.ModelViewSet):
+    queryset           = Persons_role.objects.all()
+    serializer_class   = Persons_roleSerializer
+    filter_fields      = ('persons_role_id','item_category_id','persons_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ItemCategoryTypeInfo (generics.ListAPIView):
-    try:
-        tipoInfo = models.Category.objects.get(nameCategory="tipo info")
-        queryset = models.ItemCategory.objects.filter(category=tipoInfo)
-        serializer_class = ItemCategorySerializer
-    except ObjectDoesNotExist:
-        queryset = models.ItemCategory.objects.none()
-        serializer_class = ItemCategorySerializer
+class Persons_media(viewsets.ModelViewSet):
+    queryset           = Persons_media.objects.all()
+    serializer_class   = Persons_mediaSerializer
+    filter_fields      = ('persons_media_id','path','item_category_id','persons_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ContentMessages (generics.ListAPIView):
-    try:
-        message = models.Content.objects.get(title="mensajes")
-        queryset = models.Content_media.objects.filter(content_content_id=message)
-        serializer_class = Content_media_Serializer
-    except ObjectDoesNotExist:
-        queryset = models.Content_media.objects.none()
-        serializer_class = Content_media_Serializer
+class Persons_Contacts(viewsets.ModelViewSet):
+    queryset           = Persons_Contacts.objects.all()
+    serializer_class   = Persons_ContactSerializer
+    filter_fields      = ('contact_info_id','contact','item_category_id','persons_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class ContentTestimonios (generics.ListAPIView):
-    try:
-        testimony = models.Content.objects.get(title="testimonios")
-        queryset = models.Content_media.objects.filter(content_content_id=testimony)
-        serializer_class = Content_media_Serializer
+class Subject_matter(viewsets.ModelViewSet):
+    queryset           = Subject_matter.objects.all()
+    serializer_class   = Subject_matter_Serializer
+    filter_fields      = ('subject_matter_id','name_subject_matter','universitycareer')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-    except ObjectDoesNotExist:
-        queryset = models.Content_media.objects.none()
-        serializer_class = Content_media_Serializer
+class Pre_requirements(viewsets.ModelViewSet):
+    queryset           = Pre_requirements.objects.all()
+    serializer_class   = Pre_requirements_Serializer
+    filter_fields      = ('pre_requirements_id','subject_matter_id_id','subject_matter_requeriment_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class InfoSiteQuienesSomos (generics.ListAPIView):
-    try:
-        quienesSomos = models.ItemCategory.objects.get(nameItemCategory="quienes somos")
-        queryset = models.Info_site.objects.filter(type_info=quienesSomos)
-        serializer_class = Info_site_Serializer
-    except ObjectDoesNotExist:
-        queryset = models.Info_site.objects.none()
-        serializer_class = Info_site_Serializer
+class Info_site(viewsets.ModelViewSet):
+    queryset           = Info_site.objects.all()
+    serializer_class   = Info_site_Serializer
+    filter_fields      = ('info_site_id','description','type_info','info_site_universitycareer')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class InfoSiteSecciones (generics.ListAPIView):
-    try:
+class Content(viewsets.ModelViewSet):
+    queryset           = Content.objects.all()
+    serializer_class   = Content_Serializer
+    filter_fields      = ('content_id','title','description','update_time','create_time','type_event','academic_period','content_universitycareer')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-        departamentsInfoSite = models.ItemCategory.objects.get(nameItemCategory="secciones")
-        queryset = models.Info_site.objects.filter(type_info=departamentsInfoSite)
-        serializer_class = Info_site_Serializer
-    except ObjectDoesNotExist:
-        queryset = models.Info_site.objects.none()
-        serializer_class = Info_site_Serializer
+class Content_media(viewsets.ModelViewSet):
+    queryset           = Content_media.objects.all()
+    serializer_class   = Content_media_Serializer
+    filter_fields      = ('content_media_id','path','item_category_item_category_id','content_content_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class CategoryList (generics.ListCreateAPIView):
-    queryset = models.Category.objects.all()
-    serializer_class = CategorySerializer
+class Content_info(viewsets.ModelViewSet):
+    queryset           = Content_info.objects.all()
+    serializer_class   = Content_info_Serializer
+    filter_fields      = ('content_info_id','date','place','link_form','url','content_content_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
-@permission_classes((AllowAny,))
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Category.objects.all()
-    serializer_class = CategorySerializer
-
-@permission_classes((AllowAny,))
-class ItemCategoryList(generics.ListCreateAPIView):
-    queryset = models.ItemCategory.objects.all()
-    serializer_class = ItemCategorySerializer
-
-@permission_classes((AllowAny,))
-class ItemCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.ItemCategory.objects.all()
-    serializer_class = ItemCategorySerializer
-
-@permission_classes((AllowAny,))
-class PersonsList (generics.ListCreateAPIView):
-    queryset = models.Persons.objects.all()
-    serializer_class = PersonsSerializer
-
-@permission_classes((AllowAny,))
-class PersonsDetail (generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Persons.objects.all()
-    serializer_class = PersonsSerializer
-
-@permission_classes((AllowAny,))
-class Persons_departamentsList (generics.ListCreateAPIView):
-    queryset = models.Persons_departaments.objects.all()
-    serializer_class = Persons_depaSerializer
-
-@permission_classes((AllowAny,))
-class Persons_departamentsDetail (generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Persons_departaments.objects.all()
-    serializer_class = Persons_depaSerializer
-
-@permission_classes((AllowAny,))
-class Persons_roleList (generics.ListCreateAPIView):
-    queryset = models.Persons_role.objects.all()
-    serializer_class = Persons_roleSerializer
-
-@permission_classes((AllowAny,))
-class Persons_roleDetail (generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Persons_role.objects.all()
-    serializer_class = Persons_roleSerializer
-
-@permission_classes((AllowAny,))
-class Persons_mediaList (generics.ListCreateAPIView):
-    queryset = models.Persons_media.objects.all()
-    serializer_class = Persons_mediaSerializer
-
-@permission_classes((AllowAny,))
-class Persons_mediaDetail (generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Persons_media.objects.all()
-    serializer_class = Persons_mediaSerializer
-
-@permission_classes((AllowAny,))
-class Persons_ContactsList(generics.ListCreateAPIView):
-    queryset = models.Persons_Contacts.objects.all()
-    serializer_class = Persons_ContactSerializer
-
-@permission_classes((AllowAny,))
-class Persons_ContactsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Persons_Contacts.objects.all()
-    serializer_class = Persons_ContactSerializer
-
-@permission_classes((AllowAny,))
-class Subject_matterList(generics.ListCreateAPIView):
-    queryset = models.Subject_matter.objects.all()
-    serializer_class = Subject_matter_Serializer
-
-@permission_classes((AllowAny,))
-class Subject_matterDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Subject_matter.objects.all()
-    serializer_class = Subject_matter_Serializer
-
-@permission_classes((AllowAny,))
-class Pre_requirementsList(generics.ListCreateAPIView):
-    queryset = models.Pre_requirements.objects.all()
-    serializer_class = Pre_requirements_Serializer
-
-@permission_classes((AllowAny,))
-class Pre_requirementsDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Pre_requirements.objects.all()
-    serializer_class = Pre_requirements_Serializer
-
-@permission_classes ((AllowAny,))
-class Info_siteList(generics.ListCreateAPIView):
-    queryset = models.Info_site.objects.all()
-    serializer_class = Info_site_Serializer
-
-@permission_classes ((AllowAny,))
-class Info_siteDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Info_site.objects.all()
-    serializer_class = Info_site_Serializer
-
-@permission_classes ((AllowAny,))
-class ContentList(generics.ListCreateAPIView):
-    queryset = models.Content.objects.all()
-    serializer_class = Content_Serializer
-
-@permission_classes ((AllowAny,))
-class ContentDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Content.objects.all()
-    serializer_class = Content_Serializer
-
-@permission_classes ((AllowAny,))
-class Content_mediaList(generics.ListCreateAPIView):
-    queryset = models.Content_media.objects.all()
-    serializer_class = Content_media_Serializer
-
-@permission_classes ((AllowAny,))
-class Content_mediaDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Content_media.objects.all()
-    serializer_class = Content_media_Serializer
-
-@permission_classes ((AllowAny,))
-class Content_infoList(generics.ListCreateAPIView):
-    queryset = models.Content_info.objects.all()
-    serializer_class = Content_info_Serializer
-
-@permission_classes ((AllowAny,))
-class Content_infoDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Content_info.objects.all()
-    serializer_class = Content_info_Serializer
-
-@permission_classes ((AllowAny,))
-class MenuList(generics.ListCreateAPIView):
-    queryset = models.Menu.objects.all().order_by('orden')
-    serializer_class = Menu_Serializer
-
-@permission_classes ((AllowAny,))
-class MenuDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Menu.objects.all()
-    serializer_class = Menu_Serializer
+class Menu(viewsets.ModelViewSet):
+    queryset           = Menu.objects.all()
+    serializer_class   = Menu_Serializer
+    filter_fields      = ('menu_id','name','url','orden','item_category_item_category_id')
+    def get_object(self):
+            queryset = self.get_queryset()
+            obj      = get_object_or_404(
+                queryset,
+                pk = self.kwargs['pk'],
+            )
+            return obj
 
 @csrf_exempt
 @api_view(["POST"])

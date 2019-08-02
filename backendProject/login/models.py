@@ -69,7 +69,7 @@ class Pre_requirements (models.Model):
 class Info_site (models.Model):
     info_site_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=500, null=False)
-    type_info =models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='type_site')
+    type_info =models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='type_info')
     info_site_universitycareer = models.ForeignKey('ItemCategory', on_delete=models.CASCADE, related_name='info_site_universitycareer')
 
 class Content (models.Model):

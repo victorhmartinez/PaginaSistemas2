@@ -4,9 +4,7 @@ from login.models import Users, Category, ItemCategory, Persons, Persons_departa
 from django.contrib.auth.models import User
 from rest_auth.registration.serializers import RegisterSerializer
 from allauth.account import app_settings as allauth_settings
-#from allauth.utils import email_address_exists
 from allauth.account.adapter import get_adapter
-#from allauth.account.utils import setup_user_email
 
 class RegistrationSerializer (RegisterSerializer):
 
@@ -42,7 +40,6 @@ class RegistrationSerializer (RegisterSerializer):
         user.save()
         return user
 
-    
 class CategorySerializer (serializers.ModelSerializer):
 
     class Meta:
@@ -123,7 +120,6 @@ class Info_site_Serializer (serializers.ModelSerializer):
 
     class Meta:
         model = models.Info_site
-        depth = 2
         fields = "__all__"
 
 class Content_Serializer (serializers.ModelSerializer):
